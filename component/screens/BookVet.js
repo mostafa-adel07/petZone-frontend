@@ -14,74 +14,46 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { MaterialIcons, Entypo, Ionicons } from "@expo/vector-icons";
 import { Card } from "react-native-paper";
 import { NavigationContainer } from "@react-navigation/native";
+
 export const BookVet = (navigation) => {
-  const [location, setLocation] = useState({});
-  const [latitude, setlatitude] = useState(1);
-  const [longitude, setlongitude] = useState(2);
   const [errorMsg, setErrorMsg] = useState(null);
-  const [vetid, setvetid] = useState("");
-
   const [vets, setvets] = useState([]);
-  //setvets(vets2)
-  //console.log("nn",vets)
 
-  (async () => {
-    let { status } = await Location.requestForegroundPermissionsAsync();
-    if (status !== "granted") {
-      setErrorMsg("Permission to access location was denied");
-      return;
-    }
-
-    let location = await Location.getCurrentPositionAsync({
-      accuracy: Location.Accuracy.Highest,
-      //maximumAge: 10000,
-    });
-    //setLocation(location.coords);
-
-    // AsyncStorage.setItem("location", JSON.stringify(location1));
-
-    setlatitude(location.coords.latitude);
-    setlongitude(location.coords.longitude);
-  })();
-
-  let text = "Waiting..";
-  if (errorMsg) {
-    text = errorMsg;
-  } else if (location) {
-    text = JSON.stringify(location);
-  }
-  let location1 = {
-    latitude: latitude,
-    longitude: longitude,
-    type: "Vet",
-  };
-
-  console.log("*****************");
-  /* AsyncStorage.getItem("location", (err, result) => {
-    //console.log("rrrr",result);
-    setLocation(result);
-  });*/
-
-  //console.log("locationgggg",location);
   useEffect(() => {
-    //console.log("locationffff",location);
-    axios
-      .post(
-        "https://petzone99.herokuapp.com/api/v1/users/userByDistance",
-        location1
-      )
-      .then((res) => {
-        setvets(res.data.data);
-        console.log("dddddddddd", res.data);
-      })
-      .catch((err) => {
-        console.log(err.response.data);
+    (async () => {
+      let { status } = await Location.requestForegroundPermissionsAsync();
+      if (status !== "granted") {
+        setErrorMsg("Permission to access location was denied");
+        return;
+      }
+
+      let location = await Location.getCurrentPositionAsync({
+        accuracy: Location.Accuracy.Highest,
+        maximumAge: 100000000,
       });
-  }, [location1]);
+
+      let location1 = {
+        latitude: location.coords.latitude,
+        longitude: location.coords.longitude,
+        type: "Vet",
+      };
+      console.log(location1);
+
+      axios
+        .post(
+          "https://petzone99.herokuapp.com/api/v1/users/userByDistance",
+          location1
+        )
+        .then((res) => {
+          setvets(res.data.data);
+        })
+        .catch((err) => {
+          console.log(err.response.data);
+        });
+    })();
+  }, []);
 
   const vets1 = vets;
-  console.log("mm", vets1);
-
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header1}>
@@ -131,7 +103,6 @@ export const BookVet = (navigation) => {
     </SafeAreaView>
   );
 };
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,

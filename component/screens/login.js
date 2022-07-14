@@ -73,9 +73,6 @@ export const Login = ({ navigation }) => {
           let userid = response.data.data.user._id;
           //console.log(userid);
           AsyncStorage.setItem("userid", JSON.stringify(userid));
-          AsyncStorage.getItem("userid", (err, result) => {
-            console.log(result);
-          });
 
           navigation.navigate("Drawer1");
         })

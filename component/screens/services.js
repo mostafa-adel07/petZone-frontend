@@ -23,7 +23,7 @@ export const Service = ({ navigation }) => {
         <TouchableOpacity
           style={styles.type1}
           onPress={() => {
-            navigation.navigate("Bookvet", { userid: userid });
+            navigation.navigate("Bookvet");
           }}
         >
           <Image

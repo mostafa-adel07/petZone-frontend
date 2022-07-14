@@ -13,163 +13,43 @@ import axios from "axios";
 import { MaterialIcons, Entypo, Ionicons } from "@expo/vector-icons";
 import { Card } from "react-native-paper";
 export const BookPetnanny = ({ route, navigation }) => {
-  const [location, setLocation] = useState(null);
   const [errorMsg, setErrorMsg] = useState(null);
-  const [petnannyid, setpetnannyid] = useState(3);
-  /*const vets = [
-    {trainerName:"CAP.Claire",trainerDescription:"open for 3 days",ProfilePic:"https://img.freepik.com/free-vector/doctor-character-background_1270-84.jpg?t=st=1656678468~exp=1656679068~hmac=793482d880c3fc9b80cfceedb4bcb42fe065e829939618fe6826488a46fa8bef&w=740"},
-    {trainerName:"CAP.Sally",trainerDescription:"open for 2 days",ProfilePic:"https://img.freepik.com/free-vector/doctor-character-background_1270-84.jpg?t=st=1656678468~exp=1656679068~hmac=793482d880c3fc9b80cfceedb4bcb42fe065e829939618fe6826488a46fa8bef&w=740"},
-    {trainerName:"CAP.Ali",trainerDescription:"open for 5 days",ProfilePic:"https://img.freepik.com/free-vector/doctor-character-background_1270-84.jpg?t=st=1656678468~exp=1656679068~hmac=793482d880c3fc9b80cfceedb4bcb42fe065e829939618fe6826488a46fa8bef&w=740"},
-    ];*/
+  const [petnannys, setpetnannys] = useState([]);
 
-  const petnanny2 = {
-    data: [
-      {
-        POA: {
-          numberOfPets: 0,
-          childPet: [],
-        },
-        serviceProvider: {
-          workingHours: {
-            startingHour: "11:00",
-            finishingHour: "16:00",
-            maxNumberClients: 4,
-          },
-          type: "Vet",
-          rating: 0,
-          offDays: ["Sun", "Mon"],
-          ratePerHour: 15,
-          verificationDocuments: [""],
-        },
-        _id: "6234b36154e254c11243a539",
-        userName: "user2",
-        name: "updated name",
-        email: "email2@gmail.com",
-        profilePicture:
-          "https://img.freepik.com/free-vector/doctor-character-background_1270-84.jpg?t=st=1656678468~exp=1656679068~hmac=793482d880c3fc9b80cfceedb4bcb42fe065e829939618fe6826488a46fa8bef&w=740",
-        country: "egypt",
-        address: "123 st",
-        city: "cairo",
-        phoneNumber: "1234567890",
-        role: "service provider",
-        verified: false,
-        __v: 0,
-      },
-      {
-        POA: {
-          numberOfPets: 0,
-          childPet: [],
-        },
-        serviceProvider: {
-          workingHours: {
-            startingHour: "12:00",
-            finishingHour: "17:00",
-            maxNumberClients: 4,
-          },
-          type: "Vet",
-          rating: 0,
-          offDays: ["Sun", "Mon"],
-          ratePerHour: 15,
-          verificationDocuments: [""],
-        },
-        _id: "0111",
-        userName: "us",
-        name: "updated name",
-        email: "em@gmail.com",
-        profilePicture:
-          "https://img.freepik.com/free-vector/doctor-character-background_1270-84.jpg?t=st=1656678468~exp=1656679068~hmac=793482d880c3fc9b80cfceedb4bcb42fe065e829939618fe6826488a46fa8bef&w=740",
-        country: "egypt",
-        address: "11 st",
-        city: "kk",
-        phoneNumber: "2121",
-        role: "service provider",
-        verified: false,
-        __v: 0,
-      },
-      {
-        POA: {
-          numberOfPets: 0,
-          childPet: [],
-        },
-        serviceProvider: {
-          workingHours: {
-            startingHour: "15:00",
-            finishingHour: "18:00",
-            maxNumberClients: 4,
-          },
-          type: "Vet",
-          rating: 0,
-          offDays: ["Sun", "Mon"],
-          ratePerHour: 15,
-          verificationDocuments: [""],
-        },
-        _id: "22",
-        userName: "us2",
-        name: "updated name",
-        email: "emo@gmail.com",
-        profilePicture:
-          "https://img.freepik.com/free-vector/doctor-character-background_1270-84.jpg?t=st=1656678468~exp=1656679068~hmac=793482d880c3fc9b80cfceedb4bcb42fe065e829939618fe6826488a46fa8bef&w=740",
-        country: "egypt",
-        address: "19 st",
-        city: "cii",
-        phoneNumber: "897",
-        role: "service provider",
-        verified: false,
-        __v: 0,
-      },
-    ],
-  };
-  const [petnannys, setpetnannys] = useState(petnanny2);
+  useEffect(() => {
+    (async () => {
+      let { status } = await Location.requestForegroundPermissionsAsync();
+      if (status !== "granted") {
+        setErrorMsg("Permission to access location was denied");
+        return;
+      }
 
-  (async () => {
-    let { status } = await Location.requestForegroundPermissionsAsync();
-    if (status !== "granted") {
-      setErrorMsg("Permission to access location was denied");
-      return;
-    }
+      let location = await Location.getCurrentPositionAsync({
+        accuracy: Location.Accuracy.Highest,
+        maximumAge: 100000000,
+      });
 
-    let location = await Location.getCurrentPositionAsync({
-      accuracy: Location.Accuracy.Highest,
-      maximumAge: 10000,
-    });
-    setLocation(location);
-  })();
+      let location1 = {
+        latitude: location.coords.latitude,
+        longitude: location.coords.longitude,
+        type: "Pet Carer",
+      };
 
-  let text = "Waiting..";
-  if (errorMsg) {
-    text = errorMsg;
-  } else if (location) {
-    text = JSON.stringify(location);
-  }
+      axios
+        .post(
+          "https://petzone99.herokuapp.com/api/v1/users/userByDistance",
+          location1
+        )
+        .then((res) => {
+          setpetnannys(res.data.data);
+        })
+        .catch((err) => {
+          console.log(err.response.data);
+        });
+    })();
+  }, []);
 
-  axios
-    .post("", {
-      headers: {
-        Cookie: "cookie1=value; cookie2=value; cookie3=value;",
-        Authorization: "Bearer my-token",
-      },
-      location: location,
-    })
-    .then(function (response) {
-      console.log(response);
-    })
-    .catch(function (error) {
-      console.log(error);
-    });
-
-  axios
-    .get("", {
-      withCredentials: true,
-    })
-    .then((res) => {
-      setpetnannys(res);
-    })
-    .catch((err) => {
-      console.log(err);
-    });
-
-  const petnannys1 = petnannys.data;
-  console.log("mm", petnannys1);
+  const petnannys1 = petnannys;
 
   return (
     <SafeAreaView style={styles.container}>

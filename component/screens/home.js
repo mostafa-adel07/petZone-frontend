@@ -126,7 +126,6 @@ export const Home = ({ navigation }) => {
           data={datainfo}
           numColumns={2}
           renderItem={({ item }) => {
-            console.log(item);
             return (
               <ImageBackground
                 style={{
