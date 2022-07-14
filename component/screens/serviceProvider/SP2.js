@@ -27,7 +27,6 @@ export const SP2 = ({ route, navigation }) => {
         navigation.navigate("AccountVerfication");
       })
       .catch(function (error) {
-        console.log("1");
         console.log(error);
       });
   }
@@ -97,7 +96,6 @@ export const SP2 = ({ route, navigation }) => {
         confirm();
       })
       .catch(function (error) {
-        console.log(user);
         console.log(error);
       });
   }

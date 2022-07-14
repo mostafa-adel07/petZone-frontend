@@ -28,7 +28,6 @@ export const PetDetection = () => {
   const [pettype, setpettype] = useState("");
 
   function seeresult() {
-    console.log(image);
     const form = new FormData();
     form.append("image", {
       name: "a.jpg",

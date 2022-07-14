@@ -37,7 +37,6 @@ export const BookVet = (navigation) => {
         longitude: location.coords.longitude,
         type: "Vet",
       };
-      console.log(location1);
 
       axios
         .post(

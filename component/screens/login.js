@@ -4,6 +4,11 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { TextInput } from "react-native";
 import { MaterialIcons, Ionicons } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from "react-native-responsive-screen";
+
 import axios from "axios";
 
 export const Login = ({ navigation }) => {
@@ -71,7 +76,6 @@ export const Login = ({ navigation }) => {
         })
         .then(function (response) {
           let userid = response.data.data.user._id;
-          //console.log(userid);
           AsyncStorage.setItem("userid", JSON.stringify(userid));
 
           navigation.navigate("Drawer1");
@@ -101,6 +105,7 @@ export const Login = ({ navigation }) => {
         style={styles.logo}
         source={require("../../assets/picturegogandboy.png")}
       />
+
       <Text style={styles.WELCOMBACK}> Welcome Back! </Text>
       <View style={styles.input}>
         <TextInput

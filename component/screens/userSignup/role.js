@@ -30,7 +30,7 @@ export const TypeSignup = ({ route, navigation }) => {
   function confirm() {
     axios({
       method: "post",
-      url: "https://petzone99.herokuapp.com//api/v1/users/verifyEmail",
+      url: "https://petzone99.herokuapp.com/api/v1/users/verifyEmail",
       data: {
         email,
       },

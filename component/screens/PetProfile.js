@@ -35,70 +35,61 @@ export const PetProfile = ({ route, navigation }) => {
       .get("https://petzone99.herokuapp.com/api/v1/pets/" + id)
       .then((res) => {
         Setpetinfo(res.data.data.pet);
-        setIsSwitchOn(petinfo.offerBreeding);
-        setIsSwitchOn1(petinfo.offerAdoption);
+        setIsSwitchOn(res.data.data.pet.offerBreeding);
+        setIsSwitchOn1(res.data.data.pet.offerAdoption);
       })
       .catch((err) => {
         console.log(err);
       });
   }, []);
 
-  const offerBreeding = () => {
-    axios
-      .post("https://petzone99.herokuapp.com/api/v1/offerBreeding/" + id)
-      .then((res) => {
-        setIsSwitchOn(!isSwitchOn);
-        console.log(res);
-      })
-      .catch((err) => {
-        console.log(err.response.data);
-      });
-  };
-  const deleteOfferBreeding = () => {
-    axios
-      .delete("https://petzone99.herokuapp.com/api/v1/offerBreeding/" + id)
-      .then((res) => {
-        setIsSwitchOn(!isSwitchOn);
-        console.log(res);
-      })
-      .catch((err) => {
-        console.log(err.response.data);
-      });
-  };
-
-  const onToggleSwitch = () => {
+  function onToggleSwitch() {
     {
-      isSwitchOn ? offerBreeding : deleteOfferBreeding;
+      isSwitchOn
+        ? axios
+            .delete(
+              "https://petzone99.herokuapp.com/api/v1/offerBreeding/" + id
+            )
+            .then((res) => {
+              setIsSwitchOn(!isSwitchOn);
+            })
+            .catch((err) => {
+              console.log(err.response.data);
+            })
+        : axios
+            .post("https://petzone99.herokuapp.com/api/v1/offerBreeding/" + id)
+            .then((res) => {
+              setIsSwitchOn(!isSwitchOn);
+            })
+            .catch((err) => {
+              console.log(err.response.data);
+            });
     }
-  };
+  }
 
-  const onToggleSwitch1 = () => {
+  function onToggleSwitch1() {
     {
-      isSwitchOn1 ? offerAdoption : deleteOfferAdoption;
+      isSwitchOn1
+        ? axios
+            .delete(
+              "https://petzone99.herokuapp.com/api/v1/offerAdoption/" + id
+            )
+            .then((res) => {
+              setIsSwitchOn1(!isSwitchOn1);
+            })
+            .catch((err) => {
+              console.log(err.response.data);
+            })
+        : axios
+            .post("https://petzone99.herokuapp.com/api/v1/offerAdoption/" + id)
+            .then((res) => {
+              setIsSwitchOn1(!isSwitchOn1);
+            })
+            .catch((err) => {
+              console.log(err.response.data);
+            });
     }
-  };
-
-  const offerAdoption = () => {
-    axios
-      .post("https://petzone99.herokuapp.com/api/v1/offerAdoption/" + id)
-      .then((res) => {
-        setIsSwitchOn1(!isSwitchOn1);
-      })
-      .catch((err) => {
-        console.log(err.response.data);
-      });
-  };
-
-  const deleteOfferAdoption = () => {
-    axios
-      .delete("https://petzone99.herokuapp.com/api/v1/offerAdoption/" + id)
-      .then((res) => {
-        setIsSwitchOn1(!isSwitchOn1);
-      })
-      .catch((err) => {
-        console.log(err.response.data);
-      });
-  };
+  }
 
   function checkHistoryVacciness() {
     {
@@ -112,81 +103,83 @@ export const PetProfile = ({ route, navigation }) => {
   }
 
   return (
-    <SafeAreaView>
-      <View style={styles.container}>
-        <View style={styles.header}>
-          <MaterialIcons
-            style={styles.icon1}
-            name="notifications-none"
-            size={24}
-            color="#3D405B"
-          />
-          <TouchableOpacity style={styles.buttoncontainer}>
-            <Text style={styles.buttontext}>Edit Profile</Text>
-          </TouchableOpacity>
+    <SafeAreaView style={styles.container}>
+      <View style={styles.header}>
+        <TouchableOpacity style={styles.buttoncontainer}>
+          <Text style={styles.buttontext}>Edit Profile</Text>
+        </TouchableOpacity>
 
-          <TouchableOpacity
-            style={styles.buttoncontainer1}
-            onPress={checkHistoryVacciness}
-          >
-            <Text style={styles.buttontext1}>history vacciness</Text>
-          </TouchableOpacity>
-          <Image
-            source={{ uri: image }}
-            resizeMode="stretch"
-            style={styles.avatar}
-          ></Image>
-          <Text style={styles.title0}> {petinfo.petName}</Text>
-
-          <Text style={styles.title1}> Gender: {petinfo.petGender}</Text>
-          <Text style={styles.title2}> Type: {petinfo.petType}</Text>
-          <View style={styles.veiwcard}>
-            <Card style={styles.card} onPress={() => {}}>
-              <Text style={styles.title}>Age: {petinfo.petage}</Text>
-            </Card>
-
-            <Card style={styles.card} onPress={() => {}}>
-              <Text style={styles.title}>Gender: {petinfo.petGender}</Text>
-            </Card>
-          </View>
-          <Text style={styles.title3}> Age: {petinfo.petage}</Text>
-          <Text style={styles.title4}> Breed: {petinfo.petBreed}</Text>
-          <View style={styles.veiwcard2}>
-            <Card style={styles.card} onPress={() => {}}>
-              <Text style={styles.title}>Breed: {petinfo.petBreed}</Text>
-            </Card>
-
-            <Card style={styles.card} onPress={() => {}}>
-              <Text style={styles.title}>Type: {petinfo.petType}</Text>
-            </Card>
-          </View>
-        </View>
-        <View style={styles.container1}>
-          <Switch
-            style={styles.switch1}
-            value={isSwitchOn1}
-            onValueChange={onToggleSwitch1}
-          />
-          <Text style={styles.switchtext}>
-            Offer For Adoption {petinfo.petType}
-          </Text>
-          <Switch
-            style={styles.switch1}
-            value={isSwitchOn}
-            onValueChange={onToggleSwitch}
-          />
-          <Text style={styles.switchtext}>
-            Offer For Breeding {petinfo.petType}
-          </Text>
-        </View>
-        <Text style={styles.descrptiontitle}> Descrption</Text>
-        <Text style={styles.descrption}> {petinfo.petDescription}</Text>
+        <TouchableOpacity
+          style={styles.buttoncontainer1}
+          onPress={checkHistoryVacciness}
+        >
+          <Text style={styles.buttontext1}>history vacciness</Text>
+        </TouchableOpacity>
+        <Image
+          source={{ uri: image }}
+          resizeMode="stretch"
+          style={styles.avatar}
+        ></Image>
       </View>
+      <Text style={styles.title0}> {petinfo.petName}</Text>
+
+      <Text style={styles.title1}> Gender: </Text>
+      <Text style={styles.title2}> Type: </Text>
+      <View style={styles.veiwcard}>
+        <Card style={styles.card} onPress={() => {}}>
+          <Text style={styles.title}> {petinfo.petage}</Text>
+        </Card>
+
+        <Card style={styles.card} onPress={() => {}}>
+          <Text style={styles.title}> {petinfo.petGender}</Text>
+        </Card>
+      </View>
+      <Text style={styles.title3}> Age: </Text>
+      <Text style={styles.title4}> Breed: </Text>
+      <View style={styles.veiwcard2}>
+        <Card style={styles.card} onPress={() => {}}>
+          <Text style={styles.title}> {petinfo.petBreed}</Text>
+        </Card>
+
+        <Card style={styles.card} onPress={() => {}}>
+          <Text style={styles.title}> {petinfo.petType}</Text>
+        </Card>
+      </View>
+
+      <TouchableOpacity
+        style={styles.buttoncontainer11}
+        onPress={onToggleSwitch}
+      >
+        {isSwitchOn ? (
+          <Text style={styles.buttontext1}>Cancel Breeding</Text>
+        ) : (
+          <Text style={styles.buttontext1}>Offer For Breeding</Text>
+        )}
+      </TouchableOpacity>
+
+      <TouchableOpacity
+        style={styles.buttoncontainer12}
+        // onPress={() => {console.log("rrrrrrrr");}}
+        onPress={onToggleSwitch1}
+      >
+        {isSwitchOn1 ? (
+          <Text style={styles.buttontext1}>Cancel Adoption </Text>
+        ) : (
+          <Text style={styles.buttontext1}>Offer For Adoption</Text>
+        )}
+      </TouchableOpacity>
+
+      <Text style={styles.descrptiontitle}> Descrption</Text>
+      <Text style={styles.descrption}> {petinfo.petDescription}</Text>
     </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
+  container: {
+    backgroundColor: "white",
+    flex: 1,
+  },
   header: {
     backgroundColor: "#FDEFC5",
     height: 130,
@@ -206,16 +199,16 @@ const styles = StyleSheet.create({
     borderRadius: 100,
     justifyContent: "center",
     left: 0,
-    top: -5,
+    top: -45,
   },
   veiwcard: {
     flexDirection: "row",
-    top: -55,
+    top: 25,
     left: -15,
   },
   veiwcard2: {
     flexDirection: "row",
-    top: -115,
+    top: -35,
     left: -15,
   },
   buttoncontainer: {
@@ -229,6 +222,30 @@ const styles = StyleSheet.create({
     paddingLeft: 60,
     top: 55,
     left: 120,
+  },
+  buttoncontainer11: {
+    borderRadius: 15,
+    width: 210,
+    height: 48,
+    backgroundColor: "#3D405B",
+    paddingTop: 1,
+    justifyContent: "center",
+    marginTop: 15,
+    paddingLeft: 60,
+    top: -30,
+    left: 80,
+  },
+  buttoncontainer12: {
+    borderRadius: 15,
+    width: 210,
+    height: 48,
+    backgroundColor: "#3D405B",
+    paddingTop: 1,
+    justifyContent: "center",
+    marginTop: 15,
+    paddingLeft: 60,
+    top: -30,
+    left: 80,
   },
   buttontext: {
     textAlign: "center",
@@ -281,7 +298,7 @@ const styles = StyleSheet.create({
   switch1: {
     top: 305,
     paddingBottom: 0,
-    left: -350,
+    left: 0,
   },
   switchtext: {
     top: 270,
@@ -293,7 +310,8 @@ const styles = StyleSheet.create({
   title0: {
     fontSize: 25,
     fontWeight: "bold",
-    left: -5,
+    left: 95,
+    top: 70,
   },
   descrptiontitle: {
     fontSize: 20,
@@ -301,22 +319,22 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     left: -2,
     marginBottom: 5,
-    top: 290,
+    top: -25,
   },
   descrption: {
     fontSize: 17,
     color: "black",
-    top: 300,
+    top: -30,
     //fontWeight:"bold",
     left: 6,
     //marginBottom:5,
   },
-  title: { fontWeight: "bold", fontSize: 15, color: "gray", left: 45, top: 5 },
+  title: { fontWeight: "bold", fontSize: 15, color: "gray", left: 60, top: 5 },
 
   title1: {
     paddingBottom: 0,
-    left: 86,
-    bottom: 5,
+    left: 236,
+    bottom: -75,
     fontWeight: "bold",
     fontSize: 13,
     color: "black",
@@ -324,8 +342,8 @@ const styles = StyleSheet.create({
 
   title2: {
     paddingBottom: 25,
-    left: 86,
-    bottom: -52,
+    left: 246,
+    bottom: -135,
     fontWeight: "bold",
     marginBottom: 15,
     fontSize: 13,
@@ -334,8 +352,8 @@ const styles = StyleSheet.create({
 
   title3: {
     paddingBottom: 0,
-    left: -94,
-    bottom: 140,
+    left: 74,
+    bottom: 60,
     fontWeight: "bold",
     fontSize: 13,
     color: "black",
@@ -343,8 +361,8 @@ const styles = StyleSheet.create({
 
   title4: {
     paddingBottom: 25,
-    left: -95,
-    bottom: 84,
+    left: 70,
+    bottom: 0,
     fontWeight: "bold",
     marginBottom: 15,
     fontSize: 13,

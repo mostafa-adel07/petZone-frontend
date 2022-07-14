@@ -40,8 +40,6 @@ export const UserProfile = ({ navigation }) => {
       .then((res) => {
         Setuser(res.data.currentUser);
         Setpetinfo(res.data.currentUser.POA.childPet);
-        console.log(res.data.currentUser);
-        console.log(res.data.currentUser.POA.childPet);
       })
       .catch((err) => {
         console.log(err);

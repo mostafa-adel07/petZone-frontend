@@ -34,17 +34,6 @@ export const BreedingList = ({ navigation }) => {
       });
   }, []);
 
-  function getfilter() {
-    axios
-      .get("https://petzone99.herokuapp.com/api/v1/offerBreeding" + url)
-      .then((res) => {
-        Setdatainfo(res.data.offerBreeding);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }
-
   const [petType, setpetType] = useState("");
   const [petGender, setpetGender] = useState("");
   const [petColor, setpetColor] = useState("");
