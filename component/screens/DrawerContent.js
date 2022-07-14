@@ -78,6 +78,19 @@ export function DrawerContent(props) {
               props.navigation.navigate("BreedingList");
             }}
           />
+          <DrawerItem
+            icon={({ color, size }) => (
+              <Image
+                style={styles.imagestyle}
+                source={require("../../assets/1049357.png")}
+              />
+            )}
+            label="Breed Detection"
+            marginLeft={10}
+            onPress={() => {
+              props.navigation.navigate("BreedDetection");
+            }}
+          />
         </Drawer.Section>
       </DrawerContentScrollView>
       <Drawer.Section style={styles.bottomDrawerSection}>

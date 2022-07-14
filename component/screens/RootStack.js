@@ -42,6 +42,7 @@ import { UserProfile } from "./UserProfile";
 import { DrawerContent } from "./DrawerContent";
 import { Trainerdetails, trainerdetails } from "./trainerdetails";
 import { Petnannydetails } from "./petnannydetails";
+import { PetDetection } from "./PetDetection";
 const Stack = createStackNavigator();
 //const Drawer = createDrawerNavigator();
 export const RootStackSCreen = () => (
@@ -83,6 +84,7 @@ export const RootStackSCreen = () => (
     <Stack.Screen name="trainerdetails" component={Trainerdetails} />
     <Stack.Screen name="petnannydetails" component={Petnannydetails} />
     <Stack.Screen name="AccountVerfication" component={AccountVerfication} />
+    <Stack.Screen name="BreedDetection" component={PetDetection} />
     <Stack.Screen name="Home" component={Home} />
   </Stack.Navigator>
 );

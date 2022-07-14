@@ -36,7 +36,7 @@ export const PetDetection = () => {
       type: "image/" + image.uri.slice(-3),
     });
     axios
-      .post("http://10.0.2.2:3000/", form, {
+      .post("https://petzone.azurewebsites.net/", form, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
