@@ -10,17 +10,21 @@ import {
 import Device from "expo-device";
 import * as Location from "expo-location";
 import axios from "axios";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { MaterialIcons, Entypo, Ionicons } from "@expo/vector-icons";
 import { Card } from "react-native-paper";
 import { NavigationContainer } from "@react-navigation/native";
 export const BookVet = (navigation) => {
-  const [location, setLocation] = useState(null);
+  const [location, setLocation] = useState({});
+  const [latitude, setlatitude] = useState(1);
+  const [longitude, setlongitude] = useState(2);
   const [errorMsg, setErrorMsg] = useState(null);
   const [vetid, setvetid] = useState("");
 
-  const [vets, setvets] = useState(vets2);
+  const [vets, setvets] = useState([]);
   //setvets(vets2)
   //console.log("nn",vets)
+
   (async () => {
     let { status } = await Location.requestForegroundPermissionsAsync();
     if (status !== "granted") {
@@ -30,9 +34,14 @@ export const BookVet = (navigation) => {
 
     let location = await Location.getCurrentPositionAsync({
       accuracy: Location.Accuracy.Highest,
-      maximumAge: 10000,
+      //maximumAge: 10000,
     });
-    setLocation(location);
+    //setLocation(location.coords);
+
+    // AsyncStorage.setItem("location", JSON.stringify(location1));
+
+    setlatitude(location.coords.latitude);
+    setlongitude(location.coords.longitude);
   })();
 
   let text = "Waiting..";
@@ -41,38 +50,36 @@ export const BookVet = (navigation) => {
   } else if (location) {
     text = JSON.stringify(location);
   }
+  let location1 = {
+    latitude: latitude,
+    longitude: longitude,
+    type: "Vet",
+  };
 
-  axios
-    .post("", {
-      headers: {
-        Cookie: "cookie1=value; cookie2=value; cookie3=value;",
-        Authorization: "Bearer my-token",
-      },
-      location: location,
-    })
-    .then(function (response) {
-      console.log(response);
-    })
-    .catch(function (error) {
-      console.log(error);
-    });
+  console.log("*****************");
+  /* AsyncStorage.getItem("location", (err, result) => {
+    //console.log("rrrr",result);
+    setLocation(result);
+  });*/
 
-  axios
-    .get("", {
-      headers: {
-        Cookie: "cookie1=value; cookie2=value; cookie3=value;",
-        Authorization: "Bearer my-token",
-      },
-      withCredentials: true,
-    })
-    .then((res) => {
-      setvets(res);
-    })
-    .catch((err) => {
-      console.log(err);
-    });
+  //console.log("locationgggg",location);
+  useEffect(() => {
+    //console.log("locationffff",location);
+    axios
+      .post(
+        "https://petzone99.herokuapp.com/api/v1/users/userByDistance",
+        location1
+      )
+      .then((res) => {
+        setvets(res.data.data);
+        console.log("dddddddddd", res.data);
+      })
+      .catch((err) => {
+        console.log(err.response.data);
+      });
+  }, [location1]);
 
-  const vets1 = vets.data;
+  const vets1 = vets;
   console.log("mm", vets1);
 
   return (
