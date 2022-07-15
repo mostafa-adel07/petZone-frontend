@@ -226,7 +226,7 @@ const styles = StyleSheet.create({
   textheader1: {
     marginTop: 30,
     fontSize: 30,
-    color: "rgb(221,74,72)",
+    color: "#ED7354",
     fontWeight: "bold",
   },
   icon: {

@@ -30,14 +30,14 @@ export const SignupUser2 = ({ route, navigation }) => {
     let _image = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
-      aspect: [4, 3],
+      aspect: [1, 1],
       quality: 1,
     });
     if (!_image.cancelled) {
       setImage(_image.uri);
     }
   };
-  
+
   function Next() {
     navigation.navigate("typeSignup", {
       name: name,
@@ -50,13 +50,13 @@ export const SignupUser2 = ({ route, navigation }) => {
       country: country,
       address: address,
       phoneNumber: phoneNumber,
-      profilePicture:image,
+      image: image,
     });
   }
   return (
     <View style={styles.container2}>
       <View style={styles.header}>
-      <Text style={styles.input}> Profile Picture</Text>
+        <Text style={styles.input}> Profile Picture</Text>
       </View>
       <View style={imageUploaderStyles.container}>
         {image && (
@@ -80,78 +80,77 @@ export const SignupUser2 = ({ route, navigation }) => {
 };
 
 const styles = StyleSheet.create({
-    container2: {
-      flex: 1,
-      marginBottom: 0,
-      alignItems: "center",
-      backgroundColor: "rgba(253,239,197,1)",
-    },
-    input: {
-      color: "#084594",
-      bottom:30,
-      textAlign: "center",
-      fontSize: 28,
-      marginTop: 90,
-      fontWeight:"bold",
-    },
-    header:{
-      backgroundColor:"rgba(253,239,197,1)",
-      height:125,
-      width:500,
-      borderBottomLeftRadius:120,
-      borderBottomRightRadius:120,
-      alignItems:"center"
-    },
-    buttoncontainer1: {
-      borderRadius: 15,
-      width: 200,
-      height: 50,
-      backgroundColor: "#ED7354",
-      paddingTop: 1,
-      justifyContent: "center",
-      marginTop: 80,
-      paddingLeft: 50,
-      marginLeft:10
-    },
-    buttontext1: {
-      textAlign: "center",
-      color: "white",
-      fontSize: 20,
-      right: 28,
-      fontWeight:"bold"
-    },
-    signuptext: {
-      textAlign: "center",
-      color: "black",
-      fontSize: 18,
-      flexDirection: "row",
-      marginTop: 20,
-    },
-  });
-  const imageUploaderStyles = StyleSheet.create({
-    container: {
-      elevation: 2,
-      height: 200,
-      width: 200,
-      top: 30,
-      backgroundColor: "#efefef",
-      position: "relative",
-      borderRadius: 999,
-      overflow: "hidden",
-    },
-    uploadBtnContainer: {
-      opacity: 0.7,
-      position: "absolute",
-      right: 0,
-      bottom: 0,
-      backgroundColor: "lightgray",
-      width: "100%",
-      height: "25%",
-    },
-    uploadBtn: {
-      display: "flex",
-      alignItems: "center",
-      justifyContent: "center",
-    },
-  });
-  
+  container2: {
+    flex: 1,
+    marginBottom: 0,
+    alignItems: "center",
+    backgroundColor: "rgba(253,239,197,1)",
+  },
+  input: {
+    color: "#084594",
+    bottom: 30,
+    textAlign: "center",
+    fontSize: 28,
+    marginTop: 90,
+    fontWeight: "bold",
+  },
+  header: {
+    backgroundColor: "rgba(253,239,197,1)",
+    height: 125,
+    width: 500,
+    borderBottomLeftRadius: 120,
+    borderBottomRightRadius: 120,
+    alignItems: "center",
+  },
+  buttoncontainer1: {
+    borderRadius: 15,
+    width: 200,
+    height: 50,
+    backgroundColor: "#ED7354",
+    paddingTop: 1,
+    justifyContent: "center",
+    marginTop: 80,
+    paddingLeft: 50,
+    marginLeft: 10,
+  },
+  buttontext1: {
+    textAlign: "center",
+    color: "white",
+    fontSize: 20,
+    right: 28,
+    fontWeight: "bold",
+  },
+  signuptext: {
+    textAlign: "center",
+    color: "black",
+    fontSize: 18,
+    flexDirection: "row",
+    marginTop: 20,
+  },
+});
+const imageUploaderStyles = StyleSheet.create({
+  container: {
+    elevation: 2,
+    height: 200,
+    width: 200,
+    top: 30,
+    backgroundColor: "#efefef",
+    position: "relative",
+    borderRadius: 999,
+    overflow: "hidden",
+  },
+  uploadBtnContainer: {
+    opacity: 0.7,
+    position: "absolute",
+    right: 0,
+    bottom: 0,
+    backgroundColor: "lightgray",
+    width: "100%",
+    height: "25%",
+  },
+  uploadBtn: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+});

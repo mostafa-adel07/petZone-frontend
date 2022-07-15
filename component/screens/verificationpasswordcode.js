@@ -43,8 +43,7 @@ export const Verificationpasswordcode = ({ navigation }) => {
   async function Login1() {
     await axios
       .post(
-        `https://petzone99.herokuap
-p.com/api/v1/users/VerifyToken/${codeverfication}`,
+        `https://petzone99.herokuapp.com/api/v1/users/VerifyToken/${codeverfication}`,
         {
           headers: {
             "Content-Type": "application/json",

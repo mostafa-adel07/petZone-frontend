@@ -34,61 +34,33 @@ export const Petnannydetails = ({route}) => {
   );
   const [city, Setcity] = useState('cairo');
   const [country, Setcountry] = useState('Egypt');
+const [petnanny1,setpetnanny1] =useState({});
+const [rate,setrate] = useState();
+const [start,setstart] = useState();
+const [finish,setfinish] = useState();
 
   //const [vetinfo, Setvetinfo] = useState([]);
   //const petnannydetails = {}
   
-  const petnannydetails = {
-    "petnanny": { 
-      "POA": {
-          "numberOfPets": 0,
-          "childPet": []
-      },
-      "serviceProvider": {
-          "workingHours": {
-              "startingHour": "11:00",
-              "finishingHour": "16:00",
-              "maxNumberClients": 4
-          },
-          "type": "Vet",
-          "rating": 0,
-          "offDays": [
-              "Sun",
-              "Mon"
-          ],
-          "ratePerHour": 15,
-          "verificationDocuments": [
-              ""
-          ]
-      },
-      "_id": "6234b36154e254c11243a539",
-      "userName": "user2",
-      "name": "updated name",
-      "email": "email2@gmail.com",
-      "profilePicture": "https://img.freepik.com/free-vector/doctor-character-background_1270-84.jpg?t=st=1656678468~exp=1656679068~hmac=793482d880c3fc9b80cfceedb4bcb42fe065e829939618fe6826488a46fa8bef&w=740",
-      "country": "egypt",
-      "address": "123 st",
-      "city": "cairo",
-      "phoneNumber": "1234567890",
-      "role": "service provider",
-      "verified": false,
-      "__v": 0
-  },
-}
-axios
-.get("" + petnannyid, {
-  headers: {
-    Cookie: "cookie1=value; cookie2=value; cookie3=value;",
-    Authorization: "Bearer my-token",
-  },
-  withCredentials: true,
-})
-.then((res) => {
-  petnannydetails = res
-})
-.catch((err) => {
-  console.log(err);
-});
+
+useEffect(() => {
+  axios
+    .get("https://petzone99.herokuapp.com/api/v1/users/" + petnannyid)
+    .then((res) => {
+      setpetnanny1(res.data.user);
+      setrate(res.data.user.serviceProvider.ratePerHour);
+      setstart(res.data.user.serviceProvider.workingHours.startingHour);
+      setfinish(res.data.user.serviceProvider.workingHours.finishingHour);
+      console.log("all",res.data.user);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+}, []);
+const petnannydetails = petnanny1;
+console.log("rate",rate);
+//const starthour = petnannydetails.serviceProvider.workingHours.startingHour;
+//const finishhour = petnannydetails.serviceProvider.workingHours.finishingHour;
   return (
     <SafeAreaView>
       <View style={styles.container}>
@@ -107,13 +79,13 @@ axios
             
             
               <Image
-                source={{ uri: petnannydetails.petnanny.profilePicture}}
+                source={{ uri: petnanny1.profilePicture}}
                 resizeMode="stretch"
                 style={styles.avatar}></Image>
 
-              <Text style={styles.userName}>{petnannydetails.petnanny.userName}</Text>
+              <Text style={styles.userName}>{petnanny1.userName}</Text>
               <Text style={styles.citycountry}>
-                {petnannydetails.petnanny.city}, {petnannydetails.petnanny.country}
+                {petnanny1.city}, {petnanny1.country}
                  
 
               </Text>
@@ -129,13 +101,13 @@ axios
          <Card  style={styles.card} onPress={()=>{console.log("hhhh")}}>
     
      
-      <Text style = {styles.title}> {petnannydetails.petnanny.serviceProvider.ratePerHour} EG </Text>
+      <Text style = {styles.title}> {rate} EG </Text>
     </Card>
 
      <Card  style={styles.card} onPress={()=>{console.log("hhhh")}}>
     
       
-      <Text style = {styles.title}> {petnannydetails.petnanny.serviceProvider.workingHours.startingHour} : {petnannydetails.petnanny.serviceProvider.workingHours.finishingHour} </Text>
+      <Text style = {styles.title}> {start} : {finish} </Text>
     </Card>
            </View>
              <Text style = {styles.title3}>  Address:</Text>
@@ -144,7 +116,7 @@ axios
          <Card  style={styles.card2} onPress={()=>{console.log("hhhh")}}>
     
      
-      <Text style = {styles.title}>{<EvilIcons name="location" size={24} color='rgba(237,115,84,1)' />} {petnannydetails.petnanny.address}</Text>
+      <Text style = {styles.title}>{<EvilIcons name="location" size={24} color='rgba(237,115,84,1)' />} {petnanny1.address}</Text>
     </Card>
     </View>
              <View style={styles.veiwcard4}>
@@ -157,7 +129,7 @@ axios
                     
 
                       <MaterialIcons name="email" size={32}color="white" />
-                      <Text style={styles.mytext}> {petnannydetails.petnanny.email}</Text>
+                      <Text style={styles.mytext}> {petnanny1.email}</Text>
 
 
                             </View>
@@ -166,7 +138,7 @@ axios
                <Card style={styles.mycard1} >
                <View style={styles.cardContent}>
                 <Entypo name="phone" size={32}  color="white"/>
-                    <Text style={styles.mytext}>{petnannydetails.petnanny.phoneNumber}</Text>
+                    <Text style={styles.mytext}>{petnanny1.phoneNumber}</Text>
                  </View>
                     </Card>
                 </View>

@@ -26,13 +26,11 @@ import { PetProfile } from "./PetProfile";
 export const UserProfile = ({ navigation }) => {
   const [user, Setuser] = useState({});
   const [userid, setuserid] = useState("");
-  const [image, SetImage] = useState(
-    "https://upload.wikimedia.org/wikipedia/commons/1/15/White_Persian_Cat.jpg"
-  );
+  const [image, SetImage] = useState();
   AsyncStorage.getItem("userid", (err, result) => {
     setuserid(result);
   });
-
+  const idd = userid;
   const [petinfo, Setpetinfo] = useState([]);
   useEffect(() => {
     axios
@@ -48,31 +46,25 @@ export const UserProfile = ({ navigation }) => {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.personal}>
-        <ImageBackground
-          source={require("../assets/background5.png")}
-          style={styles.image}
-        >
-          <View style={styles.userInfo}>
-            <Text style={styles.pageName}>PET OWNER</Text>
-            <TouchableOpacity>
-              <Ionicons
-                style={styles.icon1}
-                name="settings-outline"
-                size={30}
-                color="black"
-              />
-            </TouchableOpacity>
-            <Image
-              source={{ uri: image }}
-              resizeMode="stretch"
-              style={styles.avatar}
-            ></Image>
+        <View style={styles.userInfo}>
+          <Text style={styles.pageName}>PET OWNER</Text>
+          <Image
+            source={{ uri: user.profilePicture }}
+            resizeMode="stretch"
+            style={styles.avatar}
+          ></Image>
 
-            <Text style={styles.userName}>{user.userName}</Text>
-            <Text style={styles.city}>{user.city},</Text>
-            <Text style={styles.country}>{user.country}</Text>
-          </View>
-        </ImageBackground>
+          <Text style={styles.userName}>{user.userName}</Text>
+          <Text style={styles.city}>{user.city},</Text>
+          <Text style={styles.country}>{user.country}</Text>
+
+          <TouchableOpacity
+            style={styles.buttoncontainer2}
+            onPress={() => navigation.navigate("UpdateUserProfile")}
+          >
+            <Text style={styles.buttontext}>Edit Profile</Text>
+          </TouchableOpacity>
+        </View>
       </View>
 
       <View style={styles.account}>
@@ -140,7 +132,7 @@ const styles = StyleSheet.create({
   container1: {
     //flexDirection:'row'
     flex: 1,
-    marginTop: 50,
+    marginTop: 80,
     marginLeft: 30,
   },
   personal: {
@@ -154,9 +146,10 @@ const styles = StyleSheet.create({
   },
   account: {
     height: 165,
-    marginTop: 250,
+    marginTop: 170,
     marginLeft: 45,
     marginRight: 24,
+    top: 30,
   },
   expanded: {
     color: "rgba(237,115,84,1)",
@@ -177,7 +170,7 @@ const styles = StyleSheet.create({
     paddingTop: 0,
   },
   userInfo: {
-    top: 70,
+    top: 20,
     left: 65,
     height: 100,
     position: "absolute",
@@ -189,8 +182,8 @@ const styles = StyleSheet.create({
     height: 120,
     borderRadius: 100,
     justifyContent: "center",
-    left: 85,
-    top: -115,
+    left: 65,
+    top: -105,
   },
   avatar1: {
     width: 50,
@@ -227,13 +220,13 @@ const styles = StyleSheet.create({
     fontSize: 20,
     marginTop: -115,
     marginLeft: -120,
-    left: 210,
+    left: 200,
   },
   city: {
     marginTop: 0,
     marginBottom: 10,
     marginLeft: -78,
-    left: 170,
+    left: 160,
     fontSize: 15,
     color: "gray",
     //color: 'rgba(237,115,84,1)',
@@ -242,7 +235,7 @@ const styles = StyleSheet.create({
     marginTop: 0,
     marginBottom: 10,
     marginLeft: -78,
-    left: 215,
+    left: 185,
     bottom: 31,
     fontSize: 15,
     color: "gray",
@@ -339,6 +332,18 @@ const styles = StyleSheet.create({
     bottom: 110,
     fontSize: 16,
     color: "#5C7A95",
+  },
+  buttoncontainer2: {
+    borderRadius: 15,
+    width: 105,
+    height: 40,
+    backgroundColor: "#ED7354",
+    paddingTop: 1,
+    justifyContent: "center",
+    marginTop: 15,
+    paddingLeft: 60,
+    top: -190,
+    left: 180,
   },
 });
 

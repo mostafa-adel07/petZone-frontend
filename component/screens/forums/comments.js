@@ -12,11 +12,23 @@ import {
   Image,
 } from "react-native";
 import { Card } from "react-native-paper";
+import { TextInput } from "react-native-paper";
+import { MaterialIcons, Entypo, Feather, Ionicons } from "@expo/vector-icons";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
 export const Comments = ({ route }) => {
   const [commentinfo, Setcommentinfo] = useState([]);
 
   const { id } = route.params;
+
+  const [comment, Setcomment] = useState("");
+  const [userid, setuserid] = useState("");
+ console.log("id",id);
+ console.log("userid",id);
+
+  AsyncStorage.getItem("userid", (err, result) => {
+    setuserid(result);
+  });
   useEffect(() => {
     axios
       .get("https://petzone99.herokuapp.com/api/v1/forums/" + id)
@@ -28,7 +40,23 @@ export const Comments = ({ route }) => {
         console.log(err.response.data);
       });
   }, []);
+  function addComment() {
+    let item = {
+      commentText: comment,
+      commentOwner: userid,
+      postID: id,
+    };
+    console.log(item);
+    axios
+      .patch("https://petzone99.herokuapp.com/api/v1/forums/addComment", item)
+      .then((res) => {
 
+        alert("your comment add successful");
+      })
+      .catch((err) => {
+       console.log(err);
+      });
+  }
   const Comments = commentinfo;
   return (
     <>
@@ -45,9 +73,9 @@ export const Comments = ({ route }) => {
                   <Card.Cover
                     key={item._id}
                     style={styles.cover}
-                    // source={{ uri: item.owner.ProfilePicture }}
+                     source={{ uri: item.owner.ProfilePicture }}
                   />
-                  {/* <Text style={styles.title1}> {item.owner.userName}</Text> */}
+                 <Text style={styles.title1}> {item.owner.userName}</Text> 
                   <Text style={styles.title1}> {item.title}</Text>
                   <Text style={styles.title}> {item.text}</Text>
                 </Card>
@@ -56,6 +84,20 @@ export const Comments = ({ route }) => {
             keyExtractor={(item) => item._id}
             contentContainerStyle={{ padding: 10 }}
           />
+
+                 <TextInput
+                  style={styles.input}
+                  label="write your comment"
+                  mode="outlined"
+                  onChangeText={(comment) => Setcomment(comment)}
+                />
+                <Ionicons
+                  name="send"
+                  size={24}
+                  color="black"
+                  style={styles.icon1}
+                  onPress={addComment}
+                />
         </View>
       </SafeAreaView>
     </>
@@ -85,6 +127,25 @@ const styles = StyleSheet.create({
     fontSize: 30,
     color: "rgb(221,74,72)",
     fontWeight: "bold",
+  },
+  icon1: {
+    left: 280,
+    backgroundColor: "#d6d6f3",
+    height: 40,
+    width: 50,
+    margin: 5,
+    bottom:35,
+    paddingLeft: 15,
+    paddingTop: 8,
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 5,
+  },
+  input: {
+    width: 270,
+    height: 40,
+    top: 10,
+    marginLeft: 10,
   },
   card: {
     backgroundColor: "white",

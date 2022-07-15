@@ -19,10 +19,10 @@ import { EvilIcons } from '@expo/vector-icons';
 import axios from "axios";
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import AntDesign from 'react-native-vector-icons/AntDesign';
-
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { ScrollView } from 'react-native-gesture-handler';
 export const Vetdetails = ({route}) => {
-  const {userid} = route.params
+ // const {userid} = route.params
   const {vetid} = route.params;
   console.log("vetid",vetid)
   console.log("userid1",userid)
@@ -36,11 +36,42 @@ export const Vetdetails = ({route}) => {
   );
   const [city, Setcity] = useState('cairo');
   const [country, Setcountry] = useState('Egypt');
+  const[vet,setvet] = useState({});
+  const[workdata,setworkdata] = useState({});
+  const [rate,setrate] = useState();
+  const [start,setstart] = useState();
+  const [finish,setfinish] = useState();
+  const[userid,setuserid] = useState();
+  const[fristday,setfristday]= useState();
+  const[secandday,setsecandtday]= useState();
+  const[threeday,setthreeday]= useState();
+  useEffect(() => {
+    AsyncStorage.getItem("userid", (err, result) => {
+      setuserid(result);
+    });
+    
+    axios
+      .get("https://petzone99.herokuapp.com/api/v1/users/vets/loadVet/" + vetid)
+      .then((res) => {
+        setvet(res.data.vet);
+        setworkdata(res.data.data);
+        setrate(res.data.vet.serviceProvider.ratePerHour);
+        setstart(res.data.vet.serviceProvider.workingHours.startingHour);
+        setfinish(res.data.vet.serviceProvider.workingHours.finishingHour);
+        setfristday(res.data.data.workingDays[0].date.substring(0,10));
+        setsecandtday(res.data.data.workingDays[1].date.substring(0,10));
+        setthreeday(res.data.data.workingDays[2].date.substring(0,10));
+        console.log("all",res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
 
   //const [vetinfo, Setvetinfo] = useState([]);
-  //const vetdetails = {}
-  
-  const vetdetails = {
+  const vetdetails = vet;
+  console.log("vetdetails",vetdetails);
+  /*const vetdetails = {
     "data": {
         "_id": "62c2cf68047f2d162b9affab",
         "doctor": "6234b36154e254c11243a539",
@@ -113,108 +144,119 @@ export const Vetdetails = ({route}) => {
       "verified": false,
       "__v": 0
   },
-}
+}*/
 const [vetinf,setvetinf] = useState(vetdetails)
-//console.log("date", new Date(vetdetails.data.workingDays[1].date))
-var value = "Thu Jul 05 2022 00:00:00 GMT+0200 (Eastern European Standard Time)";
-/*var year = value.substring(0,);
-var day = value.substring(0,2);
-var month = value.substring(8,10);*/
-var date = value.substring(0,10)
-//var str = "{day:" + day + ",month:" + month + ",year:" + year + "}";
-console.log(date);
+
+
+
 const [checkbook,setcheckbook] = useState(true)
 const [checkbook1,setcheckbook1] = useState(true)
 const [checkbook2,setcheckbook2] = useState(true)
-let numpatient2 = vetdetails.data.workingDays[1].numberOfFreeAppointments
-let numpatient3 = vetdetails.data.workingDays[2].numberOfFreeAppointments
+
+//let numpatient1 = workdata.workingDays[0].numberOfFreeAppointments
+//let numpatient2 = workdata.data.workingDays[1].numberOfFreeAppointments
+//let numpatient3 = workdata.data.workingDays[2].numberOfFreeAppointments
 //console.log(numpatient1)
-console.log(numpatient2)
-console.log(numpatient3)
+//console.log(numpatient2)
+//console.log(numpatient3)
+
 function book (){
-   
+  let item ={
+    day: workdata.workingDays[0]._id,
+    doctor: workdata.doctor,
+    patient: userid,
+  }; 
 {
-  checkbook==true?setcheckbook(false):setcheckbook(true)
+  checkbook==true?
+    axios.post("https://petzone99.herokuapp.com/api/v1/booking/bookVet",item)
+  .then(function (response) {
+    setcheckbook(false)
+    console.log(response);
+  })
+  .catch(function (error) {
+    console.log(error);
+  })
+
+   
+
+    :
+    axios.delete("https://petzone99.herokuapp.com/api/v1/booking/bookVet",item)
+    .then(function (response) {
+      setcheckbook(true)
+      console.log(response);
+    })
+    .catch(function (error) {
+      console.log(error);
+    })
+    
+   
 
 }
-axios.post('', {
-  headers: {
-    Cookie: "cookie1=value; cookie2=value; cookie3=value;",
-    Authorization: "Bearer my-token",
-  },
-  
-    day: vetdetails.data.workingDays[0]._id,
-    doctor: vetdetails.data.doctor,
-    patient: userid,
 
-})
-.then(function (response) {
-  console.log(response);
-})
-.catch(function (error) {
-  console.log(error);
-});
-//numpatient1--
-console.log("no",vetdetails.data.workingDays[0].numberOfFreeAppointments)
+
 }
 
 function book1 (){
+  let item ={
+    day: workdata.workingDays[1]._id,
+    doctor: workdata.doctor,
+    patient: userid,
+  }; 
+  console.log("item",item)
   {
-    checkbook1==true?setcheckbook1(false):setcheckbook1(true)
+    checkbook1==true? 
+    axios.post("https://petzone99.herokuapp.com/api/v1/booking/bookVet",item)
+    .then(function (response) {
+      setcheckbook1(false)
+      console.log(response);
+    })
+    .catch(function (error) {
+      console.log(error);
+    })
+    : 
+    axios.delete("https://petzone99.herokuapp.com/api/v1/booking/bookVet",item)
+    .then(function (response) {
+      setcheckbook1(true)
+      console.log(response);
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
   
   }
-  axios.post('', {
-    headers: {
-      Cookie: "cookie1=value; cookie2=value; cookie3=value;",
-      Authorization: "Bearer my-token",
-    },
-    day: vetdetails.data.workingDays[1]._id,
-    doctor: vetdetails.data.doctor,
-    patient: userid,
-  })
-  .then(function (response) {
-    console.log(response);
-  })
-  .catch(function (error) {
-    console.log(error);
-  });
+ 
 }
 
 function book2 (){
-  {
-    checkbook2==true?setcheckbook2(false):setcheckbook2(true)
-  
-  }
-  axios.post('', {
-    headers: {
-      Cookie: "cookie1=value; cookie2=value; cookie3=value;",
-      Authorization: "Bearer my-token",
-    },
-    day: vetdetails.data.workingDays[2]._id,
-    doctor: vetdetails.data.doctor,
+  let item ={
+    day: workdata.workingDays[2]._id,
+    doctor: workdata.doctor,
     patient: userid,
-  })
+  }; 
+  {
+    checkbook2==true?
+    axios.post("https://petzone99.herokuapp.com/api/v1/booking/bookVet",item)
+    .then(function (response) {
+      setcheckbook2(false)
+      console.log(response);
+    })
+    .catch(function (error) {
+      console.log(error);
+    })
+    :
+    axios.delete("https://petzone99.herokuapp.com/api/v1/booking/bookVet",item)
   .then(function (response) {
+    setcheckbook2(true)
     console.log(response);
   })
   .catch(function (error) {
     console.log(error);
   });
+  
+  }
+  
 }
-axios
-.get("" + vetid, {
-  headers: {
-    Cookie: "cookie1=value; cookie2=value; cookie3=value;",
-    Authorization: "Bearer my-token",
-  },
-  withCredentials: true,
-})
-.then((res) => {
-  vetdetails = res
-})
-.catch((err) => {
-  console.log(err);
-});
+
 
 
 
@@ -224,7 +266,7 @@ axios
       
             <ImageBackground source={require("../assets/background5.png")}  style={styles.image}>
           <View style={styles.userInfo}>
-           <Text style={styles.pageName}>PET OWNER</Text>
+           <Text style={styles.pageName}>vet</Text>
           <TouchableOpacity>
             <Ionicons
               style={styles.icon1}
@@ -236,13 +278,14 @@ axios
             
             
               <Image
-                source={{ uri: vetdetails.vet.profilePicture}}
+                source={{ uri: vet.profilePicture}}
+                 //source={{ uri:image}}
                 resizeMode="stretch"
                 style={styles.avatar}></Image>
 
-              <Text style={styles.userName}>{vetdetails.vet.userName}</Text>
+              <Text style={styles.userName}>{vet.userName}</Text>
               <Text style={styles.citycountry}>
-                {vetdetails.vet.city}, {vetdetails.vet.country}
+                {vet.city}, {vet.country}
                  
 
               </Text>
@@ -255,49 +298,49 @@ axios
           <Text style = {styles.title2}>  Working Hours </Text>
           <View style={styles.veiwcard}>
  
-         <Card  style={styles.card} onPress={()=>{console.log("hhhh")}}>
+         <Card  style={styles.card} onPress={()=>{}}>
     
      
-      <Text style = {styles.title}> {vetdetails.vet.serviceProvider.ratePerHour} EG </Text>
+      <Text style = {styles.title}> {rate} EG </Text>
     </Card>
 
-     <Card  style={styles.card} onPress={()=>{console.log("hhhh")}}>
+     <Card  style={styles.card} onPress={()=>{}}>
     
       
-      <Text style = {styles.title}> {vetdetails.vet.serviceProvider.workingHours.startingHour} : {vetdetails.vet.serviceProvider.workingHours.finishingHour} </Text>
+      <Text style = {styles.title}> {start} : {finish} </Text>
     </Card>
            </View>
              <Text style = {styles.title3}>  Address:</Text>
           <View style={styles.veiwcard2}>
  
-         <Card  style={styles.card2} onPress={()=>{console.log("hhhh")}}>
+         <Card  style={styles.card2} onPress={()=>{}}>
     
      
-      <Text style = {styles.title}>{<EvilIcons name="location" size={24} color='rgba(237,115,84,1)' />} {vetdetails.vet.address}</Text>
+      <Text style = {styles.title}>{<EvilIcons name="location" size={24} color='rgba(237,115,84,1)' />} {vetdetails.address}</Text>
     </Card>
     </View>
       <View style={styles.veiwcard3}>
  
-         <Card  style={styles.card3} onPress={()=>{console.log("hhhh")}}>
+         <Card  style={styles.card3} onPress={()=>{}}>
     
      
-      <Text style = {styles.title4}> {vetdetails.data.workingDays[0].date.substring(0,10)}</Text>
+      <Text style = {styles.title4}> {fristday}</Text>
     </Card>
 
-     <Card  style={styles.card3} onPress={()=>{console.log("hhhh")}}>
+     <Card  style={styles.card3} onPress={()=>{}}>
     
       
-      <Text style = {styles.title4}>{vetdetails.data.workingDays[1].date.substring(0,10)}</Text>
+      <Text style = {styles.title4}>{secandday}</Text>
     </Card>
-     <Card  style={styles.card3} onPress={()=>{console.log("hhhh")}}>
+     <Card  style={styles.card3} onPress={()=>{}}>
     
       
-      <Text style = {styles.title4}>{vetdetails.data.workingDays[2].date.substring(0,10)}</Text>
+      <Text style = {styles.title4}>{threeday}</Text>
     </Card>
            </View>
              <View style={styles.veiwcard4}>
  
-         <Card  style={styles.card4} onPress={book}>
+         <Card  style={styles.card4} onPress={book} >
     
      {
        checkbook?<Text style = {styles.title4}>Book</Text>: <Text style = {styles.title4}>Cancel</Text>
@@ -305,7 +348,7 @@ axios
       
     </Card>
 
-     <Card  style={styles.card4} onPress={book1}>
+     <Card  style={styles.card4} onPress={book1} >
      {
        checkbook1?<Text style = {styles.title4}>Book</Text>: <Text style = {styles.title4}>Cancel</Text>
      }
@@ -323,7 +366,7 @@ axios
                     
 
                       <MaterialIcons name="email" size={32}color="white" />
-                      <Text style={styles.mytext}> {vetdetails.vet.email}</Text>
+                      <Text style={styles.mytext}> {vetdetails.email}</Text>
 
 
                             </View>
@@ -332,7 +375,7 @@ axios
                <Card style={styles.mycard1} >
                <View style={styles.cardContent}>
                 <Entypo name="phone" size={32}  color="white"/>
-                    <Text style={styles.mytext}>{vetdetails.vet.phoneNumber}</Text>
+                    <Text style={styles.mytext}>{vetdetails.phoneNumber}</Text>
                  </View>
                     </Card>
                 </View>
@@ -383,8 +426,8 @@ const styles = StyleSheet.create({
     //flexDirection:'row'
    // width: 600,
    // height: 200,
-   left:25,
-   top:-105,
+   left:5,
+   top:-245,
    //flex:1,
   },
   
@@ -427,32 +470,32 @@ const styles = StyleSheet.create({
     paddingTop:0,
   },
   title:{ fontWeight:"bold", fontSize:19,  color: 'rgba(237,115,84,1)',left:35,top:5,},
-  title1:{paddingBottom:0, left:16,top:5, fontWeight:"bold", fontSize:16,color:"#5C7A95"},
+  title1:{paddingBottom:0, left:16,top:-70, fontWeight:"bold", fontSize:16,color:"#5C7A95"},
 
- title2:{paddingBottom:25, left:216,bottom:20, fontWeight:"bold",marginBottom:15, fontSize:16,color:"#5C7A95"},
- title3:{paddingBottom:25, left:140,bottom:60, fontWeight:"bold",marginBottom:15, fontSize:16,color:"#5C7A95"},
+ title2:{paddingBottom:25, left:216,bottom:90, fontWeight:"bold",marginBottom:15, fontSize:16,color:"#5C7A95"},
+ title3:{paddingBottom:25, left:140,bottom:150, fontWeight:"bold",marginBottom:15, fontSize:16,color:"#5C7A95"},
  title4:{fontWeight:"bold", fontSize:19,  color: 'rgba(237,115,84,1)',left:15,top:5,},
 veiwcard: {
 flexDirection:"row",
-top:-100,
+top:-180,
 left:-15,
 
 },
 veiwcard2: {
 //flexDirection:"row",
-top:-140,
+top:-240,
 left:80,
 
 },
 veiwcard3: {
 flexDirection:"row",
-top:-140,
+top:-240,
 left:80,
 
 },
 veiwcard4: {
 flexDirection:"row",
-top:-130,
+top:-240,
 left:80,
 
 },
@@ -515,7 +558,7 @@ elevation: 5,
     borderRadius: 100,
     justifyContent: 'center',
      left: 45,
-      top: -115,
+      top: 0,
   },
   avatar1: {
     width: 50,
@@ -555,12 +598,14 @@ elevation: 5,
     bottom:5,
     marginTop: -105,
     marginLeft: -115,
-    left:190
+    top:110,
+    left:170
   },
   citycountry: {
    bottom:6,
     marginLeft: -80,
     left:146,
+    top:110,
     fontSize: 14,
     color:"gray"
     //color: 'rgba(237,115,84,1)',

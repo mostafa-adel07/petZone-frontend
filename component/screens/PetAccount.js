@@ -14,6 +14,8 @@ import {
 } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 import axios from "axios";
+import * as ImagePicker from "expo-image-picker";
+
 export const PetAccount = ({ navigation }) => {
   const [petname, SetpetName] = useState("");
   const [type, Settype] = useState("");
@@ -29,7 +31,7 @@ export const PetAccount = ({ navigation }) => {
     let _image = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
-      aspect: [4, 3],
+      aspect: [1, 1],
       quality: 1,
     });
     if (!_image.cancelled) {
@@ -46,10 +48,30 @@ export const PetAccount = ({ navigation }) => {
       petGender: gender,
       petColor: color,
       petDescription: description,
-      //image: image,
+      petProfilePic: image,
     };
+
+    const form = new FormData();
+    form.append("photo", {
+      name: "a.jpg",
+      uri: image,
+      type: "image/" + image.slice(-3),
+    });
+    form.append("petName", petname);
+    form.append("petType", type);
+    form.append("petBreed", breed);
+    form.append("petWeight", weight);
+    form.append("petage", age);
+    form.append("petGender", gender);
+    form.append("petColor", color);
+    form.append("petDescription", description);
+
     axios
-      .post("https://petzone99.herokuapp.com/api/v1/pets/", pet)
+      .post("https://petzone99.herokuapp.com/api/v1/pets/", form, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      })
       .then(function (response) {
         navigation.navigate("UserProfile");
       })

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Text,
   View,
@@ -10,8 +10,14 @@ import {
   StatusBar,
 } from "react-native";
 import { TextInput, ScrollView } from "react-native";
+import * as Location from "expo-location";
+import axios from "axios";
 
 export const SP1 = ({ route, navigation }) => {
+  const [pin, setpin] = useState({
+    latitude: 30.0707056,
+    longitude: 31.2525958,
+  });
   const [type, Settype] = useState("");
   const [ratePerHour, SetratePerHour] = useState("");
   const [startingHour, SetStartingHour] = useState("");
@@ -26,6 +32,21 @@ export const SP1 = ({ route, navigation }) => {
     isRequiredOff_days: true,
     isRequiredLand_line: true,
   });
+  useEffect(() => {
+    (async () => {
+      let { status } = await Location.requestForegroundPermissionsAsync();
+      if (status !== "granted") {
+        console.log("Permission to access location was denied");
+        return;
+      }
+      let location = await Location.getCurrentPositionAsync({});
+      console.log(location);
+      setpin({
+        latitude: location.coords.latitude,
+        longitude: location.coords.longitude,
+      });
+    })();
+  }, []);
   const {
     name,
     userName,
@@ -40,93 +61,74 @@ export const SP1 = ({ route, navigation }) => {
     role,
     image,
   } = route.params;
-  const handelRequiredType = (val) => {
-    if (val === "") {
-      setData2({
-        ...data2,
-        isRequiredType: false,
-      });
-    } else {
-      setData2({
-        ...data2,
-        isRequiredType: true,
-      });
-    }
-  };
-  const handelRequiredRate = (val) => {
-    if (val === "") {
-      setData2({
-        ...data2,
-        isRequiredRate: false,
-      });
-    } else {
-      setData2({
-        ...data2,
-        isRequiredRate: true,
-      });
-    }
-  };
-  const handelRequiredWorking_hours = (val) => {
-    if (val === "") {
-      setData2({
-        ...data2,
-        isRequiredWorking_hours: false,
-      });
-    } else {
-      setData2({
-        ...data2,
-        isRequiredWorking_hours: true,
-      });
-    }
-  };
-  const handelRequiredOff_days = (val) => {
-    if (val === "") {
-      setData2({
-        ...data2,
-        isRequiredOff_days: false,
-      });
-    } else {
-      setData2({
-        ...data2,
-        isRequiredOff_days: true,
-      });
-    }
-  };
 
-  const handelRequiredLand_line = (val) => {
-    if (val === "") {
-      setData2({
-        ...data2,
-        isRequiredLand_line: false,
-      });
-    } else {
-      setData2({
-        ...data2,
-        isRequiredLand_line: true,
-      });
-    }
-  };
   function Next() {
-    navigation.navigate("SP2", {
-      name: name,
-      userName: userName,
-      phoneNumber: phoneNumber,
-      email: email,
-      password: password,
-      passwordConfirm: passwordConfirm,
-      nationalID: nationalID,
-      country: country,
-      city: city,
-      address: address,
-      role: role,
+    // navigation.navigate("SP2", {
+    //   name: name,
+    //   userName: userName,
+    //   phoneNumber: phoneNumber,
+    //   email: email,
+    //   password: password,
+    //   passwordConfirm: passwordConfirm,
+    //   nationalID: nationalID,
+    //   country: country,
+    //   city: city,
+    //   address: address,
+    //   role: role,
+    //   type: type,
+    //   startingHour: startingHour,
+    //   finishingHour: finishingHour,
+    //   maxNumberClients: maxNumberClients,
+    //   offDays: offDays,
+    //   ratePerHour: ratePerHour,
+    //   landLine: landLine,
+    //   image: image,
+    //   latitude: pin.latitude,
+    //   longitude: pin.longitude,
+    // });
+    const form = new FormData();
+    form.append("photo", {
+      name: "a.jpg",
+      uri: image,
+      type: "image/" + image.slice(-3),
+    });
+    form.append("name", name);
+    form.append("userName", userName);
+    form.append("phoneNumber", phoneNumber);
+    form.append("email", email);
+    form.append("password", password);
+    form.append("passwordConfirm", passwordConfirm);
+    form.append("city", city);
+    form.append("country", country);
+    form.append("role", "service provider");
+    form.append("address", address);
+    form.append("nationalID", nationalID);
+    form.append("serviceProvider", {
+      location: { latitude: pin.latitude, longitude: pin.longitude },
       type: type,
-      startingHour: startingHour,
-      finishingHour: finishingHour,
-      maxNumberClients: maxNumberClients,
-      offDays: offDays,
+      workingHours: {
+        startingHour: startingHour,
+        finishingHour: finishingHour,
+        maxNumberClients: maxNumberClients,
+      },
+      offDays: [offDays],
       ratePerHour: ratePerHour,
       landLine: landLine,
+      // verificationDocuments: [verificationDocuments],
     });
+    console.log(form);
+    axios
+      .post("https://petzone99.herokuapp.com/api/v1/users/signup", form, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      })
+      .then(function (response) {
+        console.log("well done, my boy");
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
   }
   return (
     <SafeAreaView style={styles.con1}>

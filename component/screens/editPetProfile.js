@@ -26,32 +26,24 @@ import { MaterialIcons } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { Feather } from "@expo/vector-icons";
 import axios from "axios";
-export const UpdateUserProfile = ({ navigation }) => {
-  const [user, Setuser] = useState({});
-  const [id, Setid] = useState(1);
-  const [username, Setname] = useState("");
-  const [phone, Setphone] = useState("");
-  const [email, Setemail] = useState("");
-  const [password, Setpassword] = useState("");
-  const [nid, Setnid] = useState("");
-  const [country, Setcountry] = useState("");
-  const [city, Setcity] = useState("");
-  const [address, Setaddress] = useState("");
+export const EditPetProfile = ({ route, navigation }) => {
+  const { id } = route.params;
+  const [pet, Setpet] = useState({});
+  const [petname, SetpetName] = useState("");
+  const [weight, Setweight] = useState("");
+  const [age, Setage] = useState("");
+  const [description, Setdescription] = useState("");
   const [image, setImage] = useState(null);
   useEffect(() => {
     axios
-      .get("https://petzone99.herokuapp.com/api/v1/users/me")
+      .get("https://petzone99.herokuapp.com/api/v1/pets/" + id)
       .then((res) => {
-        Setuser(res.data.currentUser);
-        setImage(res.data.currentUser.profilePicture);
-        Setaddress(res.data.currentUser.address);
-        Setcity(res.data.currentUser.city);
-        Setcountry(res.data.currentUser.country);
-        Setnid(res.data.currentUser.nationalID);
-        Setemail(res.data.currentUser.email);
-        Setphone(res.data.currentUser.phoneNumber);
-        Setname(res.data.currentUser.name);
-        console.log(res.data.currentUser);
+        Setpet(res.data.data.pet);
+        SetpetName(res.data.data.pet.petName);
+        Setweight(res.data.data.pet.petWeight);
+        Setage(res.data.data.pet.petAge);
+        Setdescription(res.data.data.pet.petDescription);
+        setImage(res.data.data.pet.petProfilePic);
       })
       .catch((err) => {
         console.log(err);
@@ -65,23 +57,20 @@ export const UpdateUserProfile = ({ navigation }) => {
       uri: image,
       type: "image/" + image.slice(-3),
     });
-    form.append("name", username);
-    form.append("phoneNumber", phone);
-    form.append("email", email);
-    form.append("country", country);
-    form.append("city", city);
-    form.append("address", address);
+    form.append("petName", petname);
+    form.append("petWeight", weight);
+    form.append("petage", age);
+    form.append("petDescription", description);
 
     axios
-      .patch("https://petzone99.herokuapp.com/api/v1/users/updateMe", form, {
+      .patch("https://petzone99.herokuapp.com/api/v1/pets/" + id, form, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
-        withCredentials: true,
       })
       .then(function (response) {
         alert("updated successfully!");
-        navigation.navigate("UserProfile");
+        navigation.navigate("PetProfile", { id: id });
       })
       .catch(function (error) {
         console.log(error);
@@ -91,7 +80,7 @@ export const UpdateUserProfile = ({ navigation }) => {
     let _image = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
-      aspect: [1, 1],
+      aspect: [4, 3],
       quality: 1,
     });
     if (!_image.cancelled) {
@@ -102,12 +91,12 @@ export const UpdateUserProfile = ({ navigation }) => {
     <ScrollView>
       <View style={styles.container2}>
         <View style={styles.con}>
-          <Text style={styles.edit}>Edit Profile</Text>
+          <Text style={styles.edit}>Edit PetProfile</Text>
         </View>
         <View style={imageUploaderStyles.container}>
-          {image && (
+          {pet.petProfilePic && (
             <Image
-              source={{ uri: image }}
+              source={{ uri: pet.petProfilePic }}
               style={{ width: 200, height: 200 }}
             />
           )}
@@ -116,7 +105,7 @@ export const UpdateUserProfile = ({ navigation }) => {
               onPress={addImage}
               style={imageUploaderStyles.uploadBtn}
             >
-              <Text>{user.image ? "Edit" : "Upload"} Image</Text>
+              <Text>{pet.image ? "Edit" : "Upload"} Image</Text>
               <AntDesign name="camera" size={20} color="black" />
             </TouchableOpacity>
           </View>
@@ -125,99 +114,46 @@ export const UpdateUserProfile = ({ navigation }) => {
           <View style={styles.input}>
             <TextInput
               style={styles.inputtext}
-              value={username}
-              placeholder={username}
-              onChangeText={(username) => Setname(username)}
+              value={petname}
+              placeholder={pet.petName}
+              onChangeText={(petname) => SetpetName(petname)}
               placeholderTextColor="gray"
-            />
-            <Ionicons
-              style={styles.icon1}
-              name="people-outline"
-              size={24}
-              color="gray"
-            />
-          </View>
-          <View style={styles.input}>
-            <TextInput
-              style={styles.inputtext}
-              placeholder={phone}
-              value={phone}
-              onChangeText={(phone) => Setphone(phone)}
-              keyboardType="numeric"
-              placeholderTextColor="gray"
-            />
-            <Feather style={styles.icon1} name="phone" size={24} color="gray" />
-          </View>
-          <View style={styles.input}>
-            <TextInput
-              style={styles.inputtext}
-              placeholder={email}
-              value={email}
-              onChangeText={(email) => Setemail(email)}
-              placeholderTextColor="gray"
-            />
-            <MaterialCommunityIcons
-              style={styles.icon1}
-              name="email-outline"
-              size={24}
-              color="gray"
             />
           </View>
 
           <View style={styles.input}>
             <TextInput
               style={styles.inputtext}
-              placeholder={nid}
-              value={nid}
-              onChangeText={(Nid) => Setnid(Nid)}
-              keyboardType="numeric"
+              value={weight}
+              placeholder={pet.petWeight}
+              onChangeText={(weight) => Setweight(weight)}
               placeholderTextColor="gray"
             />
-            <AntDesign
-              style={styles.icon1}
-              name="idcard"
-              size={24}
-              color="gray"
+          </View>
+
+          <View style={styles.input}>
+            <TextInput
+              style={styles.inputtext}
+              value={age}
+              placeholder={pet.petage}
+              onChangeText={(age) => Setage(age)}
+              placeholderTextColor="gray"
+            />
+          </View>
+
+          <View style={styles.input}>
+            <TextInput
+              style={styles.inputtext}
+              value={description}
+              placeholder={pet.petDescription}
+              onChangeText={(description) => Setdescription(description)}
+              placeholderTextColor="gray"
             />
           </View>
         </View>
-        <View style={styles.input}>
-          <TextInput
-            style={styles.inputtext}
-            placeholder={country}
-            value={country}
-            onChangeText={(country) => Setcountry(country)}
-            placeholderTextColor="gray"
-          />
-          <Entypo style={styles.icon1} name="flag" size={24} color="gray" />
-        </View>
-        <View style={styles.input}>
-          <TextInput
-            style={styles.inputtext}
-            placeholder={city}
-            value={city}
-            onChangeText={(city) => Setcity(city)}
-            placeholderTextColor="gray"
-          />
-          <MaterialCommunityIcons
-            style={styles.icon1}
-            name="city"
-            size={24}
-            color="gray"
-          />
-        </View>
-        <View style={styles.input}>
-          <TextInput
-            style={styles.inputtext}
-            placeholder={address}
-            value={address}
-            onChangeText={(address) => Setaddress(address)}
-            placeholderTextColor="gray"
-          />
-          <AntDesign style={styles.icon1} name="home" size={24} color="gray" />
-        </View>
+
         <TouchableOpacity style={styles.buttoncontainer1} onPress={update}>
-          <Text style={styles.buttontext1}>Update</Text>
+          <Text style={styles.buttontext1}>Edit</Text>
         </TouchableOpacity>
       </View>
     </ScrollView>
@@ -238,7 +174,7 @@ const styles = StyleSheet.create({
   },
   con: {
     backgroundColor: "rgba(253,239,197,1)",
-    bottom: 20,
+    bottom: 5,
     borderBottomLeftRadius: 30,
     borderBottomRightRadius: 30,
     alignItems: "center",
@@ -258,17 +194,14 @@ const styles = StyleSheet.create({
     height: 50,
     borderColor: "white",
     borderWidth: 1,
-    paddingHorizontal: 35,
+    paddingHorizontal: 22,
     fontSize: 15,
     backgroundColor: "white",
     marginVertical: 10,
     marginRight: -10,
+    top: 40,
   },
-  icon1: {
-    position: "absolute",
-    top: 23,
-    left: 5,
-  },
+
   buttoncontainer1: {
     borderRadius: 15,
     width: 350,
@@ -276,7 +209,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#ED7354",
     paddingTop: 1,
     justifyContent: "center",
-    marginTop: 30,
+    marginTop: 70,
     paddingLeft: 50,
     marginLeft: 10,
   },
@@ -293,7 +226,7 @@ const imageUploaderStyles = StyleSheet.create({
     elevation: 2,
     height: 200,
     width: 200,
-    bottom: 10,
+    top: 30,
     backgroundColor: "#efefef",
     position: "relative",
     borderRadius: 999,

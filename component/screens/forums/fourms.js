@@ -108,7 +108,18 @@ export const Fourms = ({ navigation }) => {
       <View style={styles.header1}>
         <Text style={styles.textheader1}>Fourms</Text>
       </View>
+      <TouchableOpacity
+        style={styles.buttoncontainer}
+        onPress={() => {
+          navigation.navigate("CreateFourm");
+        }}
+      >
+        <Text style={styles.buttontext}>Add your own post</Text>
+      </TouchableOpacity>
       <Text style={styles.txt}>Categories</Text>
+      <TouchableOpacity style={styles.buttoncontainer1} onPress={clear}>
+        <Text style={styles.buttontext1}>All</Text>
+      </TouchableOpacity>
       <View style={styles.categories}>
         <TouchableOpacity style={styles.type1} onPress={filterTypeCat}>
           <Image
@@ -157,17 +168,8 @@ export const Fourms = ({ navigation }) => {
           <Text style={styles.txt2}>Trainers</Text>
         </TouchableOpacity>
       </View>
-      <TouchableOpacity style={styles.buttoncontainer1} onPress={clear}>
-        <Text style={styles.buttontext1}>All</Text>
-      </TouchableOpacity>
-      <TouchableOpacity
-        style={styles.buttoncontainer}
-        onPress={() => {
-          navigation.navigate("CreateFourm");
-        }}
-      >
-        <Text style={styles.buttontext}>Add your own post</Text>
-      </TouchableOpacity>
+     
+     
       <View style={styles.container}>
         <FlatList
           data={posts}
@@ -192,18 +194,7 @@ export const Fourms = ({ navigation }) => {
                     navigation.navigate("ForumComments", { id: item._id });
                   }}
                 />
-                <TextInput
-                  style={styles.input}
-                  label="write your comment"
-                  mode="outlined"
-                  onChangeText={(comment) => Setcomment(comment)}
-                />
-                <Ionicons
-                  name="send"
-                  size={24}
-                  color="black"
-                  style={styles.icon1}
-                />
+              
               </Card>
             );
           }}
@@ -224,7 +215,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     //flexDirection:"row",
-    marginTop: 50,
+    marginTop: 10,
   },
   header1: {
     backgroundColor: "rgba(253,239,197,1)",
@@ -244,7 +235,7 @@ const styles = StyleSheet.create({
     marginBottom: 30,
     marginLeft: "2%",
     width: "95%",
-    height: 320,
+    height: 220,
     borderColor: "white",
     borderRadius: 15,
     //borderStartWidth:2,
@@ -289,7 +280,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   icon: {
-    left: 290,
+    left: 240,
     backgroundColor: "#d6d6f3",
     height: 45,
     width: 60,
@@ -321,12 +312,13 @@ const styles = StyleSheet.create({
   },
   buttoncontainer: {
     borderRadius: 15,
-    width: 350,
+    width: 300,
+    
     height: 50,
     backgroundColor: "#d6d6f3",
-    paddingTop: 1,
+    paddingTop: 0,
     justifyContent: "center",
-    marginTop: 20,
+    marginTop: 5,
     paddingLeft: 50,
     marginLeft: 30,
   },
@@ -344,7 +336,8 @@ const styles = StyleSheet.create({
     backgroundColor: "rgba(253,239,197,1)",
     paddingTop: 1,
     justifyContent: "center",
-    marginTop: 50,
+    top:-30,
+    left:-50,
     paddingLeft: 50,
     marginLeft: 295,
   },
@@ -365,6 +358,7 @@ const styles = StyleSheet.create({
   categories: {
     width: 50,
     height: 65,
+    top:-20,
     flexDirection: "row",
   },
   type1: {

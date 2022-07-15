@@ -105,7 +105,10 @@ export const PetProfile = ({ route, navigation }) => {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
-        <TouchableOpacity style={styles.buttoncontainer}>
+        <TouchableOpacity
+          style={styles.buttoncontainer}
+          onPress={() => navigation.navigate("editPetProfile", { id: id })}
+        >
           <Text style={styles.buttontext}>Edit Profile</Text>
         </TouchableOpacity>
 
@@ -116,7 +119,7 @@ export const PetProfile = ({ route, navigation }) => {
           <Text style={styles.buttontext1}>history vacciness</Text>
         </TouchableOpacity>
         <Image
-          source={{ uri: image }}
+          source={{ uri: petinfo.petProfilePic }}
           resizeMode="stretch"
           style={styles.avatar}
         ></Image>
@@ -145,7 +148,8 @@ export const PetProfile = ({ route, navigation }) => {
           <Text style={styles.title}> {petinfo.petType}</Text>
         </Card>
       </View>
-
+      <Text style={styles.descrptiontitle}> Descrption</Text>
+      <Text style={styles.descrption}> {petinfo.petDescription}</Text>
       <TouchableOpacity
         style={styles.buttoncontainer11}
         onPress={onToggleSwitch}
@@ -168,9 +172,6 @@ export const PetProfile = ({ route, navigation }) => {
           <Text style={styles.buttontext1}>Offer For Adoption</Text>
         )}
       </TouchableOpacity>
-
-      <Text style={styles.descrptiontitle}> Descrption</Text>
-      <Text style={styles.descrption}> {petinfo.petDescription}</Text>
     </SafeAreaView>
   );
 };
@@ -213,9 +214,9 @@ const styles = StyleSheet.create({
   },
   buttoncontainer: {
     borderRadius: 15,
-    width: 110,
-    height: 48,
-    backgroundColor: "#3D405B",
+    width: 105,
+    height: 40,
+    backgroundColor: "#ED7354",
     paddingTop: 1,
     justifyContent: "center",
     marginTop: 15,
@@ -223,11 +224,23 @@ const styles = StyleSheet.create({
     top: 55,
     left: 120,
   },
+  buttoncontainer1: {
+    borderRadius: 15,
+    width: 105,
+    height: 40,
+    backgroundColor: "#ED7354",
+    paddingTop: 1,
+    justifyContent: "center",
+    marginTop: 15,
+    paddingLeft: 60,
+    right: 120,
+  },
+
   buttoncontainer11: {
     borderRadius: 15,
     width: 210,
     height: 48,
-    backgroundColor: "#3D405B",
+    backgroundColor: "#ED7354",
     paddingTop: 1,
     justifyContent: "center",
     marginTop: 15,
@@ -239,7 +252,7 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     width: 210,
     height: 48,
-    backgroundColor: "#3D405B",
+    backgroundColor: "#ED7354",
     paddingTop: 1,
     justifyContent: "center",
     marginTop: 15,
@@ -254,18 +267,6 @@ const styles = StyleSheet.create({
     right: 30,
   },
 
-  buttoncontainer1: {
-    borderRadius: 15,
-    width: 130,
-    height: 50,
-    backgroundColor: "#3D405B",
-    paddingTop: 1,
-    justifyContent: "center",
-    marginTop: 15,
-    paddingLeft: 60,
-    bottom: 10,
-    right: 125,
-  },
   buttontext1: {
     textAlign: "center",
     color: "white",
@@ -310,14 +311,15 @@ const styles = StyleSheet.create({
   title0: {
     fontSize: 25,
     fontWeight: "bold",
-    left: 95,
+    left: 150,
     top: 70,
+    justifyContent: "center",
   },
   descrptiontitle: {
     fontSize: 20,
     color: "black",
     fontWeight: "bold",
-    left: -2,
+    justifyContent: "center",
     marginBottom: 5,
     top: -25,
   },

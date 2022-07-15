@@ -37,7 +37,9 @@ import { ReportComments } from "./report/reportComments";
 import { Fourms } from "./forums/fourms";
 import { CreateFourm } from "./forums/createfourm";
 import { Comments } from "./forums/comments";
-
+import { UpdateUserProfile } from "./UpdateUserProfile";
+import { EditPetProfile } from "./editPetProfile";
+import { ChangePassword } from "./changePassword";
 const Stack = createStackNavigator();
 export const RootStackSCreen = () => (
   <Stack.Navigator
@@ -64,6 +66,8 @@ export const RootStackSCreen = () => (
     <Stack.Screen name="SP2" component={SP2} />
     <Stack.Screen name="PetProfile" component={PetProfile} />
     <Stack.Screen name="PetAccount" component={PetAccount} />
+    <Stack.Screen name="editPetProfile" component={EditPetProfile} />
+    <Stack.Screen name="UpdateUserProfile" component={UpdateUserProfile} />
     <Stack.Screen name="SelectedAdoptPet" component={SelectedAdoptPet} />
     <Stack.Screen name="SelectedBreedPet" component={SelectedBreedPet} />
     <Stack.Screen name="PetVaccine" component={PetVaccines} />
@@ -86,5 +90,6 @@ export const RootStackSCreen = () => (
     <Stack.Screen name="ForumComments" component={Comments} />
     <Stack.Screen name="CreateReport" component={CreateReport} />
     <Stack.Screen name="reportComments" component={ReportComments} />
+    <Stack.Screen name="ChangePassword" component={ChangePassword} />
   </Stack.Navigator>
 );

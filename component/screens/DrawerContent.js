@@ -113,6 +113,15 @@ export function DrawerContent(props) {
           icon={({ color, size }) => (
             <Icon name="exit-to-app" color={color} size={size} />
           )}
+          label="change password"
+          onPress={() => {
+            props.navigation.navigate("ChangePassword");
+          }}
+        />
+        <DrawerItem
+          icon={({ color, size }) => (
+            <Icon name="exit-to-app" color={color} size={size} />
+          )}
           label="Log Out"
           onPress={() => {
             axios

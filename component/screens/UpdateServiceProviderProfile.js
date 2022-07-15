@@ -27,34 +27,7 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { Feather } from "@expo/vector-icons";
 import axios from "axios";
 export const UpdateServiceProviderProfile = ({ navigation }) => {
-  /* const GetDetails=(type)=>{
-    if(route.params){
-     switch(type){
-      case "username":
-           return route.params.username
-      case "phone":
-           return route.params.phone
-      case "email":
-           return route.params.email
-      case "password":
-           return route.params.password
-      case "nid":
-           return route.params.nid
-      case "country":
-           return route.params.country
-      case "city":
-           return route.params.city
-      case "address":
-           return route.params.address
-     }
-    }
-     return ""
-  }*/
-  /*const data ={username:"tota",phone:"01211566095",email:"tota@gmail.com",password:"1234tota",nid:"12345678912345"
-,country:"eygpt",city:"cairo",address:"shoubra"}*/
-
   const [user, Setuser] = useState({});
-  const [id, Setid] = useState(1);
   const [username, Setname] = useState("");
   const [phone, Setphone] = useState("");
   const [email, Setemail] = useState("");
@@ -63,38 +36,14 @@ export const UpdateServiceProviderProfile = ({ navigation }) => {
   const [country, Setcountry] = useState("");
   const [city, Setcity] = useState("");
   const [address, Setaddress] = useState("");
-  // const [type, Settype] = useState("");
   const [ratePerHour, SetratePerHour] = useState("");
   const [workingHours, Setworking_hours] = useState("");
   const [offDays, Setoff_days] = useState("");
   const [finishingHour, SetfinishingHour] = useState("");
   const [landLine, Setland_line] = useState("");
   const [image, setImage] = useState(null);
-  useEffect(() => {
-    axios
-      .get("https://petzone99.herokuapp.com/api/v1/updateMe")
-      .then((res) => {
-        console.log(res);
-        Setuser(res.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, [id]);
 
   function update() {
-    let userData = {
-      username,
-      phone,
-      email,
-      password,
-      nid,
-      country,
-      city,
-      address,
-      image,
-    };
-    console.log("userData", userData);
     fetch(``, {
       method: "PUT",
       headers: {

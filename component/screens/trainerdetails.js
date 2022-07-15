@@ -23,7 +23,7 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 import { ScrollView } from 'react-native-gesture-handler';
 export const Trainerdetails = ({route}) => {
   const {trainerid} = route.params;
-  console.log("vetid",trainerid)
+  console.log("trainerid",trainerid);
   const [user, Setuser] = useState({});
   const [id, Setid] = useState(1);
   const [username, Setname] = useState('Stan Smith');
@@ -34,11 +34,14 @@ export const Trainerdetails = ({route}) => {
   );
   const [city, Setcity] = useState('cairo');
   const [country, Setcountry] = useState('Egypt');
-
+  const [trainer1,settrainer1] = useState({});
+  const [rate,setrate] = useState();
+  const [start,setstart] = useState();
+  const [finish,setfinish] = useState();
   //const [vetinfo, Setvetinfo] = useState([]);
  // const trainerdetails = {}
   
-  const trainerdetails = {
+  /*const trainerdetails = {
     "trainer": { 
       "POA": {
           "numberOfPets": 0,
@@ -74,28 +77,29 @@ export const Trainerdetails = ({route}) => {
       "verified": false,
       "__v": 0
   },
-}
-axios
-.get("" + trainerid, {
-  headers: {
-    Cookie: "cookie1=value; cookie2=value; cookie3=value;",
-    Authorization: "Bearer my-token",
-  },
-  withCredentials: true,
-})
-.then((res) => {
-  trainerdetails = res
-})
-.catch((err) => {
-  console.log(err);
-});
+}*/
+useEffect(() => {
+  axios
+    .get("https://petzone99.herokuapp.com/api/v1/users/" + trainerid)
+    .then((res) => {
+      settrainer1(res.data.user);
+      setrate(res.data.user.serviceProvider.ratePerHour);
+      setstart(res.data.user.serviceProvider.workingHours.startingHour);
+      setfinish(res.data.user.serviceProvider.workingHours.finishingHour);
+      console.log("all",res.data.user);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+}, []);
+const trainerdetails=trainer1;
   return (
     <SafeAreaView>
       <View style={styles.container}>
       
             <ImageBackground source={require("../assets/background5.png")}  style={styles.image}>
           <View style={styles.userInfo}>
-           <Text style={styles.pageName}>PET OWNER</Text>
+           <Text style={styles.pageName}>Trainer</Text>
           <TouchableOpacity>
             <Ionicons
               style={styles.icon1}
@@ -107,13 +111,13 @@ axios
             
             
               <Image
-                source={{ uri: trainerdetails.trainer.profilePicture}}
+                source={{ uri: trainerdetails.profilePicture}}
                 resizeMode="stretch"
                 style={styles.avatar}></Image>
 
-              <Text style={styles.userName}>{trainerdetails.trainer.userName}</Text>
+              <Text style={styles.userName}>{trainerdetails.userName}</Text>
               <Text style={styles.citycountry}>
-                {trainerdetails.trainer.city}, {trainerdetails.trainer.country}
+                {trainerdetails.city}, {trainerdetails.country}
                  
 
               </Text>
@@ -129,13 +133,13 @@ axios
          <Card  style={styles.card} onPress={()=>{console.log("hhhh")}}>
     
      
-      <Text style = {styles.title}> {trainerdetails.trainer.serviceProvider.ratePerHour} EG </Text>
+      <Text style = {styles.title}> {rate} EG </Text>
     </Card>
 
      <Card  style={styles.card} onPress={()=>{console.log("hhhh")}}>
     
       
-      <Text style = {styles.title}> {trainerdetails.trainer.serviceProvider.workingHours.startingHour} : {trainerdetails.trainer.serviceProvider.workingHours.finishingHour} </Text>
+      <Text style = {styles.title}> {start} : {finish} </Text>
     </Card>
            </View>
              <Text style = {styles.title3}>  Address:</Text>
@@ -144,7 +148,7 @@ axios
          <Card  style={styles.card2} onPress={()=>{console.log("hhhh")}}>
     
      
-      <Text style = {styles.title}>{<EvilIcons name="location" size={24} color='rgba(237,115,84,1)' />} {trainerdetails.trainer.address}</Text>
+      <Text style = {styles.title}>{<EvilIcons name="location" size={24} color='rgba(237,115,84,1)' />} {trainerdetails.address}</Text>
     </Card>
     </View>
              <View style={styles.veiwcard4}>
@@ -157,7 +161,7 @@ axios
                     
 
                       <MaterialIcons name="email" size={32}color="white" />
-                      <Text style={styles.mytext}> {trainerdetails.trainer.email}</Text>
+                      <Text style={styles.mytext}> {trainerdetails.email}</Text>
 
 
                             </View>
@@ -166,7 +170,7 @@ axios
                <Card style={styles.mycard1} >
                <View style={styles.cardContent}>
                 <Entypo name="phone" size={32}  color="white"/>
-                    <Text style={styles.mytext}>{trainerdetails.trainer.phoneNumber}</Text>
+                    <Text style={styles.mytext}>{trainerdetails.phoneNumber}</Text>
                  </View>
                     </Card>
                 </View>

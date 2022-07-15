@@ -41,9 +41,9 @@ const styles = StyleSheet.create({
   },
   image: {
     width: 660,
-    height:400,
+    height: 400,
     right: 120,
-    marginTop: 100
+    marginTop: 100,
   },
   image1: {
     width: 360,
@@ -58,7 +58,7 @@ const styles = StyleSheet.create({
   },
   buttoncontainer: {
     borderRadius: 15,
-    width: 350,
+    width: 330,
     height: 50,
     backgroundColor: "#ED7354",
     paddingTop: 1,

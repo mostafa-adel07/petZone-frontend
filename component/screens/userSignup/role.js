@@ -44,23 +44,31 @@ export const TypeSignup = ({ route, navigation }) => {
   }
 
   function signup() {
-    let user = {
-      name: name,
-      email: email,
-      password: password,
-      passwordConfirm: passwordConfirm,
-      userName: userName,
-      nationalID: nationalID,
-      city: city,
-      country: country,
-      address: address,
-      phoneNumber: phoneNumber,
-      // profilePicture: image,
-      role: "pet owner",
-      verified: false,
-    };
+    const form = new FormData();
+    form.append("photo", {
+      name: "a.jpg",
+      uri: image,
+      type: "image/" + image.slice(-3),
+    });
+    form.append("name", name);
+    form.append("userName", userName);
+    form.append("phoneNumber", phoneNumber);
+    form.append("email", email);
+    form.append("password", password);
+    form.append("passwordConfirm", passwordConfirm);
+    form.append("city", city);
+    form.append("country", country);
+    form.append("role", "pet owner");
+    form.append("address", address);
+    form.append("nationalID", nationalID);
+
+    console.log(form);
     axios
-      .post("https://petzone99.herokuapp.com/api/v1/users/signup", user)
+      .post("https://petzone99.herokuapp.com/api/v1/users/signup", form, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      })
       .then(function (response) {
         confirm();
       })
@@ -102,7 +110,7 @@ export const TypeSignup = ({ route, navigation }) => {
               country: country,
               address: address,
               phoneNumber: phoneNumber,
-              profilePicture: image,
+              image: image,
               role: "service provider",
             })
           }

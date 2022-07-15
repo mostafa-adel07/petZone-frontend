@@ -51,18 +51,22 @@ export const SP2 = ({ route, navigation }) => {
     offDays,
     landLine,
     ratePerHour,
+    latitude,
+    longitude,
   } = route.params;
-  const addImage = async () => {
-    let _image = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.Images,
-      allowsEditing: true,
-      aspect: [4, 3],
-      quality: 1,
-    });
-    if (!_image.cancelled) {
-      setImage(_image.uri);
-    }
-  };
+
+  console.log(image);
+  // const addImage = async () => {
+  //   let _image = await ImagePicker.launchImageLibraryAsync({
+  //     mediaTypes: ImagePicker.MediaTypeOptions.Images,
+  //     allowsEditing: true,
+  //     aspect: [4, 3],
+  //     quality: 1,
+  //   });
+  //   if (!_image.cancelled) {
+  //     SetVerificationDocuments(_image.uri);
+  //   }
+  // };
   function signup() {
     let user = {
       name: name,
@@ -78,6 +82,10 @@ export const SP2 = ({ route, navigation }) => {
       role: role,
       profilePicture: image,
       serviceProvider: {
+        location: {
+          latitude: latitude,
+          longitude: longitude,
+        },
         type: type,
         workingHours: {
           startingHour: startingHour,
@@ -90,8 +98,43 @@ export const SP2 = ({ route, navigation }) => {
         verificationDocuments: [verificationDocuments],
       },
     };
+
+    const form = new FormData();
+    form.append("photo", {
+      name: "a.jpg",
+      uri: image,
+      type: "image/" + image.slice(-3),
+    });
+    form.append("name", name);
+    form.append("userName", userName);
+    form.append("phoneNumber", phoneNumber);
+    form.append("email", email);
+    form.append("password", password);
+    form.append("passwordConfirm", passwordConfirm);
+    form.append("city", city);
+    form.append("country", country);
+    form.append("role", "service provider");
+    form.append("address", address);
+    form.append("nationalID", nationalID);
+    form.append("serviceProvider", {
+      location: { latitude: latitude, longitude: longitude },
+      type: type,
+      workingHours: {
+        startingHour: startingHour,
+        finishingHour: finishingHour,
+        maxNumberClients: maxNumberClients,
+      },
+      offDays: [offDays],
+      ratePerHour: ratePerHour,
+      landLine: landLine,
+      verificationDocuments: [verificationDocuments],
+    });
     axios
-      .post("https://petzone99.herokuapp.com/api/v1/users/signup", user)
+      .post("https://petzone99.herokuapp.com/api/v1/users/signup", form, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      })
       .then(function (response) {
         confirm();
       })
@@ -108,7 +151,7 @@ export const SP2 = ({ route, navigation }) => {
         )}
         <View style={imageUploaderStyles.uploadBtnContainer}>
           <TouchableOpacity
-            onPress={addImage}
+            // onPress={addImage}
             style={imageUploaderStyles.uploadBtn}
           >
             <Text>{image ? "Edit" : "Upload"} Image</Text>

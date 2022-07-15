@@ -46,13 +46,17 @@ export const ReportComments = ({ route }) => {
     console.log(item);
     axios
       .patch("https://petzone99.herokuapp.com/api/v1/forums/addComment", item)
-      .then((res) => {})
+      .then((res) => {
+
+        alert("your comment add successful");
+      })
       .catch((err) => {
-        console.log(err);
+       console.log(err);
       });
   }
   const Comments = commentinfo;
-  console.log(commentinfo);
+//const Comments=Comments1.slice(3, 20);
+  //console.log("all comments",commentinfo);
   return (
     <>
       <SafeAreaView style={styles.container1}>
@@ -63,16 +67,16 @@ export const ReportComments = ({ route }) => {
           <FlatList
             data={Comments}
             renderItem={({ item }) => {
-              console.log(item.owner.name);
+              //console.log(item.owner.name);
               return (
                 <Card style={styles.card}>
                   <Card.Cover
                     key={item._id}
                     style={styles.cover}
-                    //source={{ uri: item.owner.ProfilePicture }}
+                    source={{ uri: item.owner.ProfilePicture }}
                   />
 
-                  {/* <Text style={styles.title1}> {item.owner.name}</Text> */}
+                  <Text style={styles.title1}> {item.owner.name}</Text>
                   <Text style={styles.title1}> {item.title}</Text>
                   <Text style={styles.title}> {item.text}</Text>
                 </Card>
@@ -125,17 +129,23 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   icon1: {
-    left: 310,
+    left: 280,
     backgroundColor: "#d6d6f3",
     height: 40,
     width: 50,
     margin: 5,
-    bottom: 35,
+    bottom:35,
     paddingLeft: 15,
     paddingTop: 8,
     justifyContent: "center",
     alignItems: "center",
     borderRadius: 5,
+  },
+  input: {
+    width: 270,
+    height: 40,
+    top: 10,
+    marginLeft: 10,
   },
   card: {
     backgroundColor: "white",

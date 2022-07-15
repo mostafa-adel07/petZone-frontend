@@ -117,7 +117,7 @@ const styles = StyleSheet.create({
     marginBottom: 30,
     marginLeft: "2%",
     width: "95%",
-    height: 320,
+    height: 220,
     borderColor: "white",
     borderRadius: 15,
     //borderStartWidth:2,
@@ -162,7 +162,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   icon: {
-    left: 290,
+    left: 250,
     backgroundColor: "#d6d6f3",
     height: 45,
     width: 60,
