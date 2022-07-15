@@ -91,6 +91,21 @@ export function DrawerContent(props) {
               props.navigation.navigate("BreedDetection");
             }}
           />
+          <DrawerItem
+            icon={({ color, size }) => (
+              <Image
+                style={styles.imagestyle}
+                source={{
+                  uri: "https://cdn-icons-png.flaticon.com/512/1450/1450932.png",
+                }}
+              />
+            )}
+            label="Report injuired animal"
+            marginLeft={15}
+            onPress={() => {
+              props.navigation.navigate("Report");
+            }}
+          />
         </Drawer.Section>
       </DrawerContentScrollView>
       <Drawer.Section style={styles.bottomDrawerSection}>

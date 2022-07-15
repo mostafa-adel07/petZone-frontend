@@ -149,7 +149,6 @@ const styles = StyleSheet.create({
   settingsList: {
     left: 51,
     height: 408,
-    position: "absolute",
     right: 450,
     bottom: 274,
   },

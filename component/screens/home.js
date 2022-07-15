@@ -108,7 +108,7 @@ export const Home = ({ navigation }) => {
         <TouchableOpacity
           style={styles.type4}
           onPress={() => {
-            navigation.navigate("Fourm");
+            navigation.navigate("Forum");
           }}
         >
           <Image
@@ -127,31 +127,21 @@ export const Home = ({ navigation }) => {
           numColumns={2}
           renderItem={({ item }) => {
             return (
-              <ImageBackground
-                style={{
-                  flex: 1,
-                  marginBottom: 15,
-                  marginLeft: 7,
-                  marginRight: 7,
-                  height: 190,
-                  width: 180,
-                }}
-                imageStyle={{ borderRadius: 10 }}
-                source={{
-                  uri: "https://cdn-icons-png.flaticon.com/512/2649/2649024.png",
+              <Card
+                style={styles.card}
+                onPress={() => {
+                  navigation.navigate("SelectedAdoptPet", { id: item._id });
                 }}
               >
+                <Card.Cover
+                  key={item._id}
+                  style={styles.cover}
+                  source={{ uri: item.petProfilePic }}
+                />
                 <Text style={styles.title}> {item.petName}</Text>
                 <Text style={styles.title1}> {item.petBreed}</Text>
-
-                <Text style={styles.title1}>
-                  {" "}
-                  {
-                    <FontAwesome name="transgender" size={25} color="white" />
-                  }{" "}
-                  {item.petGender}
-                </Text>
-              </ImageBackground>
+                <Text style={styles.title1}> {item.petGender}</Text>
+              </Card>
             );
           }}
           keyExtractor={(item) => item._id}
@@ -244,19 +234,46 @@ const styles = StyleSheet.create({
     marginTop: 50,
   },
 
+  card: {
+    backgroundColor: "white",
+    marginBottom: 40,
+    top: 20,
+    marginLeft: "5%",
+    width: "42%",
+    height: 240,
+    borderColor: "white",
+    borderRadius: 15,
+    //borderStartWidth:2,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4.84,
+    elevation: 5,
+  },
+  cover: {
+    width: "99%",
+    height: 118,
+    padding: 0,
+    backgroundColor: "rgb(250, 219, 216)",
+    borderRadius: 10,
+    elevation: 5,
+  },
   title: {
-    //paddingBottom: 5,
-    paddingLeft: 5,
-    top: 90,
+    paddingBottom: 10,
+    marginLeft: 10,
+    top: 20,
     fontWeight: "bold",
-    fontSize: 21,
-    color: "white",
+    fontSize: 16,
+    color: "#5C7A95",
   },
   title1: {
-    //paddingBottom: 10,
-    paddingLeft: 10,
-    top: 90,
-    fontSize: 17,
-    color: "white",
+    paddingBottom: 10,
+    marginLeft: 11,
+    top: 20,
+    fontSize: 16,
+    color: "#5C7A95",
   },
 });

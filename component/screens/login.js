@@ -76,7 +76,7 @@ export const Login = ({ navigation }) => {
         })
         .then(function (response) {
           let userid = response.data.data.user._id;
-          AsyncStorage.setItem("userid", JSON.stringify(userid));
+          AsyncStorage.setItem("userid", userid);
 
           navigation.navigate("Drawer1");
         })

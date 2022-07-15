@@ -1,14 +1,4 @@
 import * as React from "react";
-import {
-  Text,
-  View,
-  StyleSheet,
-  SafeAreaView,
-  StatusBar,
-  ScrollView,
-  TouchableOpacity,
-  Image,
-} from "react-native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { Login } from "./login";
 import { Home } from "./home";
@@ -19,10 +9,8 @@ import { SignupUser2 } from "./userSignup/SignupUser2";
 import { Splashscreen } from "./splashscreen";
 import { AccountVerfication } from "./accountVerfication";
 import { SP1 } from "./serviceProvider/SP1";
-import { createDrawerNavigator } from "@react-navigation/drawer";
 import { SP2 } from "./serviceProvider/SP2";
 import { Drawer1 } from "./Drawer";
-import { NavigationContainer } from "@react-navigation/native";
 import { SelectedAdoptPet } from "./SelectedAdoptPet";
 import { AdoptionList } from "./AdoptionList";
 import { PetProfile } from "./PetProfile";
@@ -40,11 +28,17 @@ import { Vetdetails } from "./vetdetails";
 import { MainTabScreen } from "./MainTabScreen";
 import { UserProfile } from "./UserProfile";
 import { DrawerContent } from "./DrawerContent";
-import { Trainerdetails, trainerdetails } from "./trainerdetails";
+import { Trainerdetails } from "./trainerdetails";
 import { Petnannydetails } from "./petnannydetails";
 import { PetDetection } from "./PetDetection";
+import { Reports } from "./report/reports";
+import { CreateReport } from "./report/createReport";
+import { ReportComments } from "./report/reportComments";
+import { Fourms } from "./forums/fourms";
+import { CreateFourm } from "./forums/createfourm";
+import { Comments } from "./forums/comments";
+
 const Stack = createStackNavigator();
-//const Drawer = createDrawerNavigator();
 export const RootStackSCreen = () => (
   <Stack.Navigator
     screenOptions={{
@@ -85,6 +79,12 @@ export const RootStackSCreen = () => (
     <Stack.Screen name="petnannydetails" component={Petnannydetails} />
     <Stack.Screen name="AccountVerfication" component={AccountVerfication} />
     <Stack.Screen name="BreedDetection" component={PetDetection} />
+    <Stack.Screen name="Report" component={Reports} />
+    <Stack.Screen name="Forum" component={Fourms} />
     <Stack.Screen name="Home" component={Home} />
+    <Stack.Screen name="CreateFourm" component={CreateFourm} />
+    <Stack.Screen name="ForumComments" component={Comments} />
+    <Stack.Screen name="CreateReport" component={CreateReport} />
+    <Stack.Screen name="reportComments" component={ReportComments} />
   </Stack.Navigator>
 );
