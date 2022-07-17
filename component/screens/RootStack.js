@@ -40,6 +40,9 @@ import { Comments } from "./forums/comments";
 import { UpdateUserProfile } from "./UpdateUserProfile";
 import { EditPetProfile } from "./editPetProfile";
 import { ChangePassword } from "./changePassword";
+import {Forgetpassword} from "./forgetpassword";
+import {Verificationpasswordcode} from "./verificationpasswordcode"
+import {Setnewpassword} from "./setnewpassword"
 const Stack = createStackNavigator();
 export const RootStackSCreen = () => (
   <Stack.Navigator
@@ -91,5 +94,11 @@ export const RootStackSCreen = () => (
     <Stack.Screen name="CreateReport" component={CreateReport} />
     <Stack.Screen name="reportComments" component={ReportComments} />
     <Stack.Screen name="ChangePassword" component={ChangePassword} />
+    <Stack.Screen name="Forgetpassword" component={Forgetpassword} />
+    <Stack.Screen name="Verificationpasswordcode" component={Verificationpasswordcode} />
+    <Stack.Screen name="Setnewpassword" component={Setnewpassword} />
+
+    
+
   </Stack.Navigator>
 );

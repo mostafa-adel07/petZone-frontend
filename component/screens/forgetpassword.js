@@ -77,12 +77,6 @@ export const Forgetpassword = ({ navigation }) => {
           onBlur={Emilvalidator}
           onChangeText={(email) => SetEamil(email)}
         />
-        <MaterialCommunityIcons
-          style={styles.icon1}
-          name="email-outline"
-          size={24}
-          color="gray"
-        />
       </View>
       {data.isValidEmail ? null : (
         <Text style={{ color: "red" }}> email must have '@' and '.'</Text>
@@ -128,7 +122,7 @@ const styles = StyleSheet.create({
     height: 50,
     //borderColor: "rgb(48, 71, 94)",
     borderWidth: 1,
-    paddingHorizontal: 120,
+    paddingHorizontal: 50,
     fontSize: 20,
     // color: "",
     marginVertical: 5,

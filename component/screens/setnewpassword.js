@@ -66,7 +66,7 @@ export const Setnewpassword = ({ route, navigation }) => {
           },
         })
         .then(function (response) {
-          navigation.navigate("Home");
+          navigation.navigate("Drawer1");
         })
         .catch(function (error) {
           if (error.response.status === 400) {
@@ -162,7 +162,6 @@ const styles = StyleSheet.create({
     borderRadius: 40,
     backgroundColor: "white",
     fontWeight: "700",
-    color: "rgba(255, 255, 255, 1)",
     borderColor: "white",
 
     marginRight: 15,

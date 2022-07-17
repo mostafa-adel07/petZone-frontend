@@ -49,7 +49,7 @@ export const MainTabScreen = ({ props }) => {
           ),
         }}
         onPress={() => {
-          navigation.navigate("Home");
+          navigation.navigate("Drawer1");
         }}
       />
       <Tab.Screen
