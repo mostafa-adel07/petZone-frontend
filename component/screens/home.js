@@ -56,9 +56,7 @@ export const Home = ({ navigation }) => {
         >
           <Image
             style={styles.imagestyle}
-            source={{
-              uri: "https://cdn-icons-png.flaticon.com/512/6381/6381356.png",
-            }}
+            source={require("../../assets/3048404.png")}
           />
           <Text style={styles.txt1}>Trainer</Text>
         </TouchableOpacity>
@@ -70,9 +68,7 @@ export const Home = ({ navigation }) => {
         >
           <Image
             style={styles.imagestyle}
-            source={{
-              uri: "https://cdn-icons-png.flaticon.com/512/3047/3047827.png",
-            }}
+            source={require("../../assets/2813428.png")}
           />
           <Text style={styles.txt1}>Pet carer</Text>
         </TouchableOpacity>
@@ -84,9 +80,7 @@ export const Home = ({ navigation }) => {
         >
           <Image
             style={styles.imagestyle}
-            source={{
-              uri: "https://cdn-icons-png.flaticon.com/512/760/760909.png",
-            }}
+            source={require("../../assets/3621421.png")}
           />
           <Text style={styles.txt2}>Vets</Text>
         </TouchableOpacity>
@@ -98,9 +92,7 @@ export const Home = ({ navigation }) => {
         >
           <Image
             style={styles.imagestyle}
-            source={{
-              uri: "https://cdn-icons-png.flaticon.com/512/2649/2649024.png",
-            }}
+            source={require("../../assets/2373914.png")}
           />
           <Text style={styles.txt2}>Hotels</Text>
         </TouchableOpacity>
@@ -113,11 +105,9 @@ export const Home = ({ navigation }) => {
         >
           <Image
             style={styles.imagestyle}
-            source={{
-              uri: "https://cdn-icons-png.flaticon.com/512/942/942802.png",
-            }}
+            source={require("../../assets/8021701.png")}
           />
-          <Text style={styles.txt2}>Fourms</Text>
+          <Text style={styles.txt2}>Forums</Text>
         </TouchableOpacity>
       </View>
 
@@ -158,10 +148,11 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
   },
   txt: {
-    color: "#325288",
+    color: "#5C7A95",
     fontSize: 20,
     marginLeft: 10,
     marginTop: 10,
+    fontWeight: "bold"
   },
   services: {
     width: 50,
@@ -169,25 +160,26 @@ const styles = StyleSheet.create({
     flexDirection: "row",
   },
   type1: {
-    backgroundColor: "rgba(253,239,197,1)",
+    // backgroundColor: "rgba(253,239,197,1)",
     marginLeft: 10,
     top: 10,
     borderRadius: 5,
+    
   },
   type2: {
-    backgroundColor: "rgba(253,239,197,1)",
+    // backgroundColor: "rgba(253,239,197,1)",
     marginLeft: 20,
     top: 10,
     borderRadius: 5,
   },
   type3: {
-    backgroundColor: "rgba(253,239,197,1)",
+    // backgroundColor: "rgba(253,239,197,1)",
     marginLeft: 20,
     top: 10,
     borderRadius: 5,
   },
   type4: {
-    backgroundColor: "rgba(253,239,197,1)",
+    // backgroundColor: "rgba(253,239,197,1)",
     marginLeft: 20,
     top: 10,
     borderRadius: 5,

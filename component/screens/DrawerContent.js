@@ -29,7 +29,11 @@ export function DrawerContent(props) {
         <Drawer.Section style={styles.drawerSection}>
           <DrawerItem
             icon={({ color, size }) => (
-              <Icon name="home-outline" color={color} size={30} />
+              <Image
+                style={styles.imagestyle1}
+                source={require("../../assets/609803.png")}
+              />
+              
             )}
             label="Home"
             marginLeft={17}
@@ -39,7 +43,10 @@ export function DrawerContent(props) {
           />
           <DrawerItem
             icon={({ color, size }) => (
-              <Icon name="account-outline" color={color} size={30} />
+              <Image
+                style={styles.imagestyle}
+                source={require("../../assets/4115394.png")}
+              />
             )}
             label="Profile"
             marginLeft={17}
@@ -51,10 +58,8 @@ export function DrawerContent(props) {
           <DrawerItem
             icon={({ color, size }) => (
               <Image
-                style={styles.imagestyle1}
-                source={{
-                  uri: "https://cdn-icons-png.flaticon.com/512/88/88003.png",
-                }}
+                style={styles.imagestyle}
+                source={require("../../assets/5267183.png")}
               />
             )}
             label="Adoption"
@@ -67,9 +72,7 @@ export function DrawerContent(props) {
             icon={({ color, size }) => (
               <Image
                 style={styles.imagestyle}
-                source={{
-                  uri: "https://cdn-icons-png.flaticon.com/512/2002/2002490.png",
-                }}
+                source={require("../../assets/2002537.png")}
               />
             )}
             label="Breeding"
@@ -95,9 +98,7 @@ export function DrawerContent(props) {
             icon={({ color, size }) => (
               <Image
                 style={styles.imagestyle}
-                source={{
-                  uri: "https://cdn-icons-png.flaticon.com/512/1450/1450932.png",
-                }}
+                source={require("../../assets/1062506.png")}
               />
             )}
             label="Report injuired animal"
@@ -111,7 +112,10 @@ export function DrawerContent(props) {
       <Drawer.Section style={styles.bottomDrawerSection}>
         <DrawerItem
           icon={({ color, size }) => (
-            <Icon name="exit-to-app" color={color} size={size} />
+            <Image
+                style={styles.imagestyle}
+                source={require("../../assets/3064478.png")}
+              />
           )}
           label="change password"
           onPress={() => {
@@ -120,7 +124,10 @@ export function DrawerContent(props) {
         />
         <DrawerItem
           icon={({ color, size }) => (
-            <Icon name="exit-to-app" color={color} size={size} />
+            <Image
+                style={styles.imagestyle}
+                source={require("../../assets/1574351.png")}
+              />
           )}
           label="Log Out"
           onPress={() => {

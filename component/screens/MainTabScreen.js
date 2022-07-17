@@ -42,7 +42,10 @@ export const MainTabScreen = ({ props }) => {
         options={{
           tabBarLabel: "Home",
           tabBarIcon: ({ color, size }) => (
-            <MaterialCommunityIcons name="home" color={color} size={30} />
+            <Image
+                style={styles.imagestyle1}
+                source={require("../../assets/609803.png")}
+              />
           ),
         }}
         onPress={() => {
@@ -57,9 +60,7 @@ export const MainTabScreen = ({ props }) => {
           tabBarIcon: ({ color, size }) => (
             <Image
               style={styles.imagestyle1}
-              source={{
-                uri: "https://cdn-icons-png.flaticon.com/512/88/88003.png",
-              }}
+              source={require("../../assets/5267183.png")}
             />
           ),
         }}
@@ -75,9 +76,7 @@ export const MainTabScreen = ({ props }) => {
           tabBarIcon: ({ color, size }) => (
             <Image
               style={styles.imagestyle}
-              source={{
-                uri: "https://cdn-icons-png.flaticon.com/512/2002/2002490.png",
-              }}
+              source={require("../../assets/2002537.png")}
             />
           ),
         }}
@@ -89,7 +88,10 @@ export const MainTabScreen = ({ props }) => {
         options={{
           tabBarLabel: "Profile",
           tabBarIcon: ({ color, size }) => (
-            <MaterialCommunityIcons name="account" color={color} size={30} />
+            <Image
+              style={styles.imagestyle2}
+              source={require("../../assets/4115394.png")}
+            />
           ),
         }}
         //onPress={profile}
@@ -103,9 +105,7 @@ export const MainTabScreen = ({ props }) => {
           tabBarIcon: ({ color, size }) => (
             <Image
               style={styles.imagestyle2}
-              source={{
-                uri: "https://www.mcicon.com/wp-content/uploads/2021/01/Industrial_Service_1-copy-6.jpg",
-              }}
+              source={require("../../assets/2092303.png")}
             />
           ),
         }}
@@ -131,8 +131,8 @@ const styles = StyleSheet.create({
     resizeMode: "contain",
   },
   imagestyle2: {
-    width: 48,
-    height: 50,
+    width: 32,
+    height: 40,
     marginLeft: 2,
     top: 2,
     resizeMode: "contain",

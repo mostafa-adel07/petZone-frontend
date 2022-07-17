@@ -186,9 +186,7 @@ export const AdoptionList = ({ navigation }) => {
             >
               <Image
                 style={styles.imagestyle}
-                source={{
-                  uri: "https://cdn-icons.flaticon.com/png/512/1959/premium/1959947.png?token=exp=1645157925~hmac=3f0bebc2efdacae2e4dd214daa211ef0",
-                }}
+                source={require("../../assets/1871753.png")}
               />
               <Text style={styles.txt2}>Hamsters</Text>
             </TouchableOpacity>

@@ -28,6 +28,7 @@ export const AccountVerfication = ({ navigation }) => {
         }
       )
       .then(function (response) {
+        // aro7 feeeeeeeeeeeeeeeeeeeeeen
         navigation.navigate("Drawer1");
       })
       .catch(function (error) {

@@ -103,19 +103,28 @@ export const SP1 = ({ route, navigation }) => {
     form.append("role", "service provider");
     form.append("address", address);
     form.append("nationalID", nationalID);
-    form.append("serviceProvider", {
-      location: { latitude: pin.latitude, longitude: pin.longitude },
-      type: type,
-      workingHours: {
-        startingHour: startingHour,
-        finishingHour: finishingHour,
-        maxNumberClients: maxNumberClients,
+    let serviceProviderObject = JSON.stringify({
+      "location": { "latitude": pin.latitude, "longitude": pin.longitude },
+      "type": type,
+      "workingHours": {
+        "startingHour": startingHour,
+        "finishingHour": finishingHour,
+        "maxNumberClients": maxNumberClients,
       },
-      offDays: [offDays],
-      ratePerHour: ratePerHour,
-      landLine: landLine,
-      // verificationDocuments: [verificationDocuments],
+      "ratePerHour": ratePerHour,
+      "landLine": landLine,
+      "offDays": [offDays]
     });
+    form.append("serviceProvider", serviceProviderObject)
+    // form.append("serviceProvider[location][latitude]", pin.latitude);
+    // form.append("serviceProvider[location][longitude]", pin.longitude);
+    // form.append("serviceProvider[type]", type);
+    // form.append("serviceProvider[workingHours][startingHour]", startingHour);
+    // form.append("serviceProvider[workingHours][finishingHour]", finishingHour);
+    // form.append("serviceProvider[workingHours][maxNumberClients]", maxNumberClients);
+    // form.append("serviceProvider[offDays]", [offDays]);
+    // form.append("serviceProvider[ratePerHour]", ratePerHour);
+    // form.append("serviceProvider[landLine]", landLine);
     console.log(form);
     axios
       .post("https://petzone99.herokuapp.com/api/v1/users/signup", form, {
@@ -125,6 +134,9 @@ export const SP1 = ({ route, navigation }) => {
       })
       .then(function (response) {
         console.log("well done, my boy");
+
+
+
       })
       .catch(function (error) {
         console.log(error);
